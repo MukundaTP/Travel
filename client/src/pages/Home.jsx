@@ -1,7 +1,7 @@
+import { AnimatedTestimonialsDemo } from "@/components/AnimatedTestimonals";
 import CarouselComponent from "@/components/Carousel";
 import HighlightSection from "@/components/HighLightSection";
-import TestimonialsSection from "@/components/TestimonalsSectionl";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const Home = () => {
   // Scroll to top when the component is mounted (when the page loads)
@@ -13,7 +13,7 @@ const Home = () => {
     <div>
       <CarouselComponent />
       <HighlightSection />
-      <TestimonialsSection />
+      <AnimatedTestimonialsDemo />
     </div>
   );
 };

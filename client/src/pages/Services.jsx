@@ -211,7 +211,7 @@ const Services = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-gray-800 via-gray-900 to-black pt-[150px] text-white py-16">
+      <div className="inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-black pt-[150px] text-white py-16">
         <div className="container mx-auto px-4">
           <h1 className="text-5xl font-bold text-center mb-4">
             Premium Transport Services

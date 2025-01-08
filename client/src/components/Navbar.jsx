@@ -81,7 +81,7 @@ const Navbar = () => {
         variants={navbarVariants}
         initial="initial"
         animate="animate"
-        className={`fixed top-0 left-0 right-0 z-50 ${
+        className={`fixed top-0 left-0 right-0 z-[2000] ${
           isScrolled ? "bg-white/90 backdrop-blur-md shadow-lg" : "bg-white"
         } transition-all duration-300`}
       >

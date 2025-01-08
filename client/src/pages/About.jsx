@@ -107,7 +107,7 @@ const AboutTheAgency = () => {
         >
           {/* Background Elements */}
           <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-900/95"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-black"></div>
 
           <div className="relative z-10 max-w-4xl mx-auto ">
             <motion.h2
@@ -251,7 +251,7 @@ const HistoryAndVision = () => {
   return (
     <section className="relative py-24 overflow-hidden">
       {/* Background with gradient and texture */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-700 via-gray-800 to-gray-900"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-black"></div>
       <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5"></div>
 
       {/* Animated background shapes */}
@@ -549,7 +549,7 @@ const SocialButton = ({ Icon }) => (
 );
 // Why Choose Us Component (unchanged)
 const WhyChooseUs = () => (
-  <section className="why-choose-us py-20  bg-gradient-to-r from-gray-800 via-gray-900 to-black mx-auto">
+  <section className="why-choose-us py-20 bg-gradient-to-b from-gray-900 via-gray-900 to-black mx-auto">
     <div className="max-w-6xl mx-auto">
       <h2 className="text-4xl font-bold mb-12 text-center text-white">
         Why Choose Us
