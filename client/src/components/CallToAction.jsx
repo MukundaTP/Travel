@@ -9,7 +9,7 @@ const CallToAction = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="bg-gray-700 rounded-3xl shadow-2xl text-white p-12 text-center relative overflow-hidden"
+        className="bg-gradient-to-r from-gray-800 via-gray-900 to-black rounded-3xl shadow-2xl text-white p-12 text-center relative overflow-hidden"
       >
         {/* Background Animation */}
         <motion.div
@@ -40,7 +40,7 @@ const CallToAction = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-2xl text-blue-100 mb-10"
+            className="text-2xl text-gray-100 mb-10"
           >
             Contact us now to customize your perfect journey
           </motion.p>

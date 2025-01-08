@@ -113,7 +113,7 @@ const TestimonialsSlider = () => {
 
   return (
     <motion.section
-      className="relative py-24 bg-gradient-to-b from-gray-800 to-gray-900 text-white overflow-hidden"
+      className="relative py-24 inset-0 bg-gradient-to-b from-gray-900  to-gray-700 text-white overflow-hidden"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -136,10 +136,10 @@ const TestimonialsSlider = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
             What Our Customers Say
           </h2>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-100 text-lg max-w-2xl mx-auto">
             Discover why thousands of customers trust us for their
             transportation needs
           </p>

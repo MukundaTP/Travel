@@ -121,7 +121,7 @@ const ContactPage = () => {
           transition={{ duration: 2 }}
         />
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 relative z-10 pt-10">
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -129,7 +129,7 @@ const ContactPage = () => {
             className="text-center"
           >
             <motion.h1
-              className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
+              className="text-5xl md:text-5xl font-bold mb-6 bg-clip-text capitalize text-transparent bg-gradient-to-r from-white to-gray-300"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -137,7 +137,7 @@ const ContactPage = () => {
               Get in Touch
             </motion.h1>
             <motion.p
-              className="text-xl md:text-2xl text-gray-300"
+              className="text-xl md:text-xl text-gray-300"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}

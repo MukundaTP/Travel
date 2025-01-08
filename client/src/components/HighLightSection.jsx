@@ -62,7 +62,7 @@ const FeatureCard = ({ icon: Icon, title, description, index }) => {
       {/* Content */}
       <div className="relative z-10">
         <motion.div variants={iconVariants} className="mb-6 relative">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 text-gray-700 group-hover:text-gray-800 transition-colors duration-300">
             <Icon
               size={32}
               className="transform group-hover:scale-110 transition-transform duration-300"
@@ -74,12 +74,12 @@ const FeatureCard = ({ icon: Icon, title, description, index }) => {
             transition={{ delay: 1 }}
             className="absolute -right-2 -top-2"
           >
-            <CheckCircle className="w-6 h-6 text-green-500" />
+            <CheckCircle className="w-6 h-6 text-gray-500" />
           </motion.div>
         </motion.div>
 
         <motion.div variants={contentVariants}>
-          <h3 className="text-2xl font-bold text-gray-800 mb-4 group-hover:text-blue-600 transition-colors duration-300">
+          <h3 className="text-2xl font-bold text-gray-800 mb-4 group-hover:text-gray-800 transition-colors duration-300">
             {title}
           </h3>
 

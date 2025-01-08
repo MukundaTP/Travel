@@ -5,12 +5,11 @@ import {
   Shield,
   Clock,
   Trophy,
-  Users,
-  Globe,
   Award,
-  Heart,
-  ChevronLeft,
-  ChevronRight,
+  History,
+  Rocket,
+  Target,
+  TrendingUp,
   Linkedin,
   Mail,
   Twitter,
@@ -94,29 +93,57 @@ const AboutTheAgency = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-white to-blue-50 py-20">
+    <section className="min-h-screen bg-white py-20">
       <motion.div
-        className="max-w-7xl mx-auto px-6"
+        className=" mx-auto "
         initial="hidden"
         animate="visible"
         variants={containerVariants}
       >
         {/* Header */}
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <h2 className="text-5xl font-bold mb-6 bg-gray-700 bg-clip-text text-transparent">
-            About Our Agency
-          </h2>
-          <p className="text-xl leading-relaxed text-gray-600 max-w-4xl mx-auto">
-            With years of experience in the travel industry, we specialize in
-            providing reliable and comfortable transport solutions for all your
-            needs. Our commitment to professionalism and family values ensures
-            every journey is a memorable one.
-          </p>
+        <motion.div
+          className="text-center mb-16 relative py-20 bg-gray-900"
+          variants={itemVariants}
+        >
+          {/* Background Elements */}
+          <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-900/95"></div>
+
+          <div className="relative z-10 max-w-4xl mx-auto ">
+            <motion.h2
+              className="text-5xl font-bold mb-6 text-white"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              About Our Agency
+            </motion.h2>
+
+            <motion.p
+              className="text-xl leading-relaxed text-gray-300 mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              With years of experience in the travel industry, we specialize in
+              providing reliable and comfortable transport solutions for all
+              your needs. Our commitment to professionalism and family values
+              ensures every journey is a memorable one.
+            </motion.p>
+          </div>
+
+          {/* Optional Decorative Elements */}
+          <motion.div
+            className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          />
         </motion.div>
 
         {/* Highlights */}
         <motion.div
-          className="grid md:grid-cols-2 gap-8 mt-12"
+          className="grid md:grid-cols-2 gap-8 mt-12 max-w-7xl mx-auto"
           variants={containerVariants}
         >
           {highlights.map((item, index) => (
@@ -124,22 +151,22 @@ const AboutTheAgency = () => {
               key={index}
               variants={itemVariants}
               whileHover={{ y: -5 }}
-              className="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-700/10"
             >
-              <h3 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-3">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-700 flex items-center gap-3">
                 <motion.div
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.5 }}
-                  className="p-2 bg-blue-50 rounded-xl"
+                  className="p-2 bg-gray-700/5 rounded-xl"
                 >
                   {item.icon}
                 </motion.div>
                 {item.title}
               </h3>
               {item.content ? (
-                <p className="text-gray-600 leading-relaxed">{item.content}</p>
+                <p className="text-gray-700 leading-relaxed">{item.content}</p>
               ) : (
-                <ul className="text-gray-600 space-y-3">
+                <ul className="text-gray-700 space-y-3">
                   {item.list.map((listItem, idx) => (
                     <motion.li
                       key={idx}
@@ -160,70 +187,218 @@ const AboutTheAgency = () => {
 
         {/* Stats */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 max-w-7xl mx-auto"
           variants={containerVariants}
         >
           {stats.map((stat, index) => (
             <motion.div
               key={index}
-              className="text-center p-6 bg-white rounded-2xl shadow-lg"
+              className="text-center p-6 bg-white rounded-2xl shadow-lg border border-gray-700/10"
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
             >
               <motion.div
-                className="text-4xl font-bold bg-gray-700 bg-clip-text text-transparent"
+                className="text-4xl font-bold text-gray-700"
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 {stat.value}
               </motion.div>
-              <div className="text-gray-600 mt-2 font-medium">{stat.label}</div>
+              <div className="text-gray-700 mt-2 font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Decorative Elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute bg-gray-700/5 rounded-full"
+              style={{
+                width: Math.random() * 300 + 100,
+                height: Math.random() * 300 + 100,
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                rotate: [0, 180, 360],
+                opacity: [0.1, 0.2, 0.1],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          ))}
+        </div>
       </motion.div>
     </section>
   );
 };
 
-const HistoryAndVision = () => (
-  <section className="py-20 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white">
-    <div className="max-w-6xl mx-auto px-6">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <h2 className="text-4xl font-bold mb-6">History and Vision</h2>
+const HistoryAndVision = () => {
+  const milestones = [
+    { year: "2010", title: "The Beginning", icon: History },
+    { year: "2015", title: "Regional Expansion", icon: TrendingUp },
+    { year: "2020", title: "Innovation Era", icon: Rocket },
+    { year: "2024", title: "Future Vision", icon: Target },
+  ];
 
-        <div className="space-y-8">
-          <p className="text-xl leading-relaxed text-gray-200">
-            Our journey began over a decade ago with a single vehicle and a
-            vision to redefine travel experiences. Through dedication and
-            customer focus, we've grown into a leading transport provider
-            serving multiple cities and diverse client needs.
-          </p>
+  return (
+    <section className="relative py-24 overflow-hidden">
+      {/* Background with gradient and texture */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-700 via-gray-800 to-gray-900"></div>
+      <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5"></div>
 
-          <div className="pl-6 border-l-4 border-blue-500">
-            <p className="text-2xl font-semibold italic text-gray-100">
-              "To become the premier travel solution provider, connecting people
-              and places with comfort, safety, and style."
-            </p>
+      {/* Animated background shapes */}
+      {[...Array(5)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute bg-blue-500/10 rounded-full"
+          style={{
+            width: Math.random() * 300 + 100,
+            height: Math.random() * 300 + 100,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360],
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{
+            duration: Math.random() * 10 + 10,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+      ))}
+
+      <div className="max-w-6xl mx-auto  relative">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="space-y-16"
+        >
+          {/* Header Section */}
+          <div className="text-center">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-5xl font-bold mb-6 bg-white bg-clip-text text-transparent"
+            >
+              Our History & Vision
+            </motion.h2>
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              transition={{ delay: 0.3 }}
+              viewport={{ once: true }}
+              className="w-24 h-1 bg-white mx-auto rounded-full"
+            />
           </div>
 
-          <p className="text-xl text-gray-300">
-            Today, we continue to innovate and expand, guided by our commitment
-            to excellent service and sustainable practices. Our vision extends
-            beyond transportation – we aim to create memorable journeys and
-            lasting relationships with every client we serve.
-          </p>
-        </div>
-      </motion.div>
-    </div>
-  </section>
-);
+          {/* Timeline Section */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+            {milestones.map((milestone, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="text-center"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="bg-gray-800/50 p-6 rounded-2xl backdrop-blur-sm border border-gray-700"
+                >
+                  <motion.div
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4"
+                  >
+                    <milestone.icon className="w-8 h-8 text-white" />
+                  </motion.div>
+                  <div className="text-white font-bold mb-2">
+                    {milestone.year}
+                  </div>
+                  <div className="text-white font-semibold">
+                    {milestone.title}
+                  </div>
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Main Content */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Journey Description */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <h3 className="text-2xl font-bold text-white mb-4">
+                Our Journey
+              </h3>
+              <p className="text-xl leading-relaxed text-blue-100">
+                Our journey began over a decade ago with a single vehicle and a
+                vision to redefine travel experiences. Through dedication and
+                customer focus, we've grown into a leading transport provider
+                serving multiple cities and diverse client needs.
+              </p>
+            </motion.div>
+
+            {/* Vision Quote */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-blue-400 to-transparent"></div>
+              <div className="pl-8">
+                <Award className="w-12 h-12 text-white mb-6" />
+                <p className="text-2xl font-semibold italic text-blue-100 leading-relaxed">
+                  "To become the premier travel solution provider, connecting
+                  people and places with comfort, safety, and style."
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Future Vision */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <p className="text-xl text-blue-100 leading-relaxed">
+              Today, we continue to innovate and expand, guided by our
+              commitment to excellent service and sustainable practices. Our
+              vision extends beyond transportation – we aim to create memorable
+              journeys and lasting relationships with every client we serve.
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 const MeetTheTeam = () => {
   const [isHovering, setIsHovering] = useState(null);
@@ -267,7 +442,7 @@ const MeetTheTeam = () => {
     <section className="py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-gray-100 opacity-20"></div>
 
-      <div className="max-w-6xl mx-auto px-6 relative">
+      <div className="max-w-6xl mx-auto  relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -322,7 +497,7 @@ const MeetTheTeam = () => {
 
 const TeamMemberCard = ({ member, index, isHovering, setIsHovering }) => (
   <div
-    className="w-full md:w-1/3 flex-shrink-0 px-6"
+    className="w-full md:w-1/3 flex-shrink-0 "
     onMouseEnter={() => setIsHovering(index)}
     onMouseLeave={() => setIsHovering(null)}
   >
@@ -374,7 +549,7 @@ const SocialButton = ({ Icon }) => (
 );
 // Why Choose Us Component (unchanged)
 const WhyChooseUs = () => (
-  <section className="why-choose-us py-20 px-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black">
+  <section className="why-choose-us py-20  bg-gradient-to-r from-gray-800 via-gray-900 to-black max-w-7xl mx-auto rounded-2xl">
     <div className="max-w-6xl mx-auto">
       <h2 className="text-4xl font-bold mb-12 text-center text-white">
         Why Choose Us

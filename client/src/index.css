@@ -16,6 +16,8 @@ html,
 body {
   background-color: #edf6f9;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 /* Ensure the carousel takes full screen height */
