@@ -15,6 +15,7 @@
 html,
 body {
   background-color: #edf6f9;
+  scroll-behavior: smooth;
 }
 
 /* Ensure the carousel takes full screen height */
@@ -50,4 +51,15 @@ body {
 /* Optional: Adjust the size of the dots */
 .slick-dots li button:before {
   font-size: 8px; /* Increase or decrease dot size as needed */
+}
+
+
+.animate-marquee {
+  animation: marquee linear infinite;
+  animation-duration: 20s; /* Adjust speed */
+  animation-play-state: running; /* Default state */
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused; /* Pauses scrolling on hover */
 }
