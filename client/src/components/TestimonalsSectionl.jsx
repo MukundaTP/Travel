@@ -1,48 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { QuoteIcon } from "lucide-react";
+import { Quote } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+// Define the validation schema
+const reviewSchema = z.object({
+  name: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters" })
+    .max(50, { message: "Name must be less than 50 characters" }),
+  message: z
+    .string()
+    .min(10, { message: "Message must be at least 10 characters" })
+    .max(500, { message: "Message must be less than 500 characters" }),
+  rating: z
+    .number()
+    .min(1, { message: "Please select a rating" })
+    .max(5, { message: "Rating must be between 1 and 5" }),
+});
 
 const TestimonialsSlider = () => {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+
+  const form = useForm({
+    resolver: zodResolver(reviewSchema),
+    defaultValues: {
+      name: "",
+      message: "",
+      rating: 0,
+    },
+  });
+
+  const handleDrawerOpen = () => setDrawerOpen(true);
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+    form.reset();
+  };
+
   const testimonials = [
     {
       name: "John Doe",
       role: "Business Traveler",
-      avatar: "data:image/jpeg;base64,...", // Your base64 image
+      avatar: "/api/placeholder/150/150",
       fallback: "JD",
       quote:
         "We had the best family trip, all thanks to their spacious 10-wheeler bus!",
       rating: 5,
     },
-    {
-      name: "Jane Smith",
-      role: "Corporate Event Manager",
-      avatar: "data:image/jpeg;base64,...", // Your base64 image
-      fallback: "JS",
-      quote: "Their 4-wheeler service made our corporate event seamless.",
-      rating: 5,
-    },
-    {
-      name: "Robert Brown",
-      role: "Adventure Enthusiast",
-      avatar: "data:image/jpeg;base64,...", // Your base64 image
-      fallback: "RB",
-      quote:
-        "Absolutely loved the experience! Highly recommend their services.",
-      rating: 5,
-    },
-    {
-      name: "Emily Davis",
-      role: "Travel Blogger",
-      avatar: "data:image/jpeg;base64,...", // Your base64 image
-      fallback: "ED",
-      quote: "The drivers were so friendly and professional. Fantastic trip!",
-      rating: 5,
-    },
+    // ... other testimonials
   ];
 
+  // Rest of the existing configuration objects...
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -91,7 +125,13 @@ const TestimonialsSlider = () => {
     ),
   };
 
-  const StarRating = ({ rating }) => {
+  const StarRating = ({
+    rating,
+    interactive = false,
+    onRatingChange = null,
+  }) => {
+    const [hoveredStar, setHoveredStar] = useState(0);
+
     return (
       <div className="flex gap-1 mb-4">
         {[...Array(5)].map((_, index) => (
@@ -101,8 +141,13 @@ const TestimonialsSlider = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 }}
             className={`text-2xl ${
-              index < rating ? "text-yellow-400" : "text-gray-400"
-            }`}
+              index < (interactive ? hoveredStar || rating : rating)
+                ? "text-yellow-400"
+                : "text-gray-400"
+            } ${interactive ? "cursor-pointer" : ""}`}
+            onMouseEnter={() => interactive && setHoveredStar(index + 1)}
+            onMouseLeave={() => interactive && setHoveredStar(0)}
+            onClick={() => interactive && onRatingChange?.(index + 1)}
           >
             ★
           </motion.span>
@@ -111,9 +156,27 @@ const TestimonialsSlider = () => {
     );
   };
 
+  const onSubmit = (data) => {
+    console.log("Submitted review:", data);
+    handleDrawerClose();
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Submitted review:", formData);
+    handleDrawerClose();
+  };
+
+  const handleInputChange = (field) => (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: e.target.value,
+    }));
+  };
+
   return (
     <motion.section
-      className="relative py-24 inset-0 bg-gradient-to-b from-gray-900  to-gray-700 text-white overflow-hidden"
+      className="relative py-24 inset-0 bg-gradient-to-b from-gray-900 to-gray-700 text-white overflow-hidden"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -175,14 +238,13 @@ const TestimonialsSlider = () => {
                           ease: "linear",
                         }}
                       >
-                        <QuoteIcon className="w-4 h-4 text-white" />
+                        <Quote className="w-4 h-4 text-white" />
                       </motion.div>
                     </motion.div>
                     <div className="space-y-2">
                       <h3 className="text-xl font-bold text-white">
                         {testimonial.name}
                       </h3>
-                      <p className="text-gray-400">{testimonial.role}</p>
                     </div>
                     <StarRating rating={testimonial.rating} />
                   </CardHeader>
@@ -201,8 +263,101 @@ const TestimonialsSlider = () => {
             ))}
           </Slider>
         </motion.div>
+
+        {/* Review Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="text-center mt-8"
+        >
+          <Button
+            onClick={handleDrawerOpen}
+            className="bg-white text-gray-700 hover:bg-gray-100 font-semibold py-4 px-8 rounded-full shadow-lg transform transition hover:scale-105"
+          >
+            Share Your Experience
+          </Button>
+        </motion.div>
       </div>
 
+      {/* Review Form Drawer */}
+      <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
+        <DrawerContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <DrawerHeader>
+                <DrawerTitle>Share Your Experience</DrawerTitle>
+                <DrawerDescription>
+                  Please tell us about your experience with our service.
+                </DrawerDescription>
+              </DrawerHeader>
+
+              <div className="px-4 py-2 space-y-6">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Message</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Tell us about your experience"
+                          className="min-h-32"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="rating"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Rating</FormLabel>
+                      <FormControl>
+                        <div className="flex justify-center">
+                          <StarRating
+                            rating={field.value}
+                            interactive={true}
+                            onRatingChange={field.onChange}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <DrawerFooter>
+                <Button type="submit">Submit Review</Button>
+                <DrawerClose asChild>
+                  <Button variant="outline" onClick={handleDrawerClose}>
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </form>
+          </Form>
+        </DrawerContent>
+      </Drawer>
       {/* Decorative Elements */}
       <motion.div
         className="absolute top-0 left-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl"

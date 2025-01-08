@@ -18,6 +18,8 @@ body {
   scroll-behavior: smooth;
   overflow-x: hidden;
   overflow-y: scroll;
+  width: 100vw;
+
 }
 
 /* Ensure the carousel takes full screen height */
