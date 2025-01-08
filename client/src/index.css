@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --radius: 0.5rem
+  }
+}
+
+/* Ensure the carousel takes full screen height */
+.carousel-full-height {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.carousel-item {
+  height: 100vh;
+}
+
+.carousel-image {
+  height: 100vh;
+  object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
+}
