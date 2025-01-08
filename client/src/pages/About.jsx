@@ -293,7 +293,7 @@ const HistoryAndVision = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-5xl font-bold mb-6 bg-white bg-clip-text text-transparent"
+              className="text-5xl font-bold mb-6 text-white"
             >
               Our History & Vision
             </motion.h2>
@@ -549,7 +549,7 @@ const SocialButton = ({ Icon }) => (
 );
 // Why Choose Us Component (unchanged)
 const WhyChooseUs = () => (
-  <section className="why-choose-us py-20  bg-gradient-to-r from-gray-800 via-gray-900 to-black max-w-7xl mx-auto rounded-2xl">
+  <section className="why-choose-us py-20  bg-gradient-to-r from-gray-800 via-gray-900 to-black mx-auto">
     <div className="max-w-6xl mx-auto">
       <h2 className="text-4xl font-bold mb-12 text-center text-white">
         Why Choose Us

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Car as Motion,
   Calendar,
   MapPin,
   Coffee,
@@ -8,32 +7,13 @@ import {
   Music,
   Camera,
   Wifi,
-  Users,
-  Navigation,
-  Bluetooth,
-  Airplay,
-  Battery,
-  Monitor,
-  Radio,
-  Bed,
-  Video,
-  ChefHat,
-  BookOpen,
-  Star,
-  Shield,
-  Clock,
-  Heart,
-  ThumbsUp,
-  Map,
-  Utensils,
-  Hotel,
-  PartyPopper,
-  Gamepad2 as Gaming,
-  Music2 as MusicNote,
-  Compass,
+  Car as CarIcon, // For 4-wheelers
+  Bus, // For 10-wheelers
+  Truck, // For 8-wheelers
+  CarTaxiFront as Taxi,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 import TabSection from "@/components/TabSection";
+
 import CallToAction from "@/components/CallToAction";
 
 const Services = () => {
@@ -43,10 +23,9 @@ const Services = () => {
   }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   const [activeTab, setActiveTab] = useState("vehicles");
-
   const vehicleExamples = {
     "4-Wheelers": {
-      icon: <Motion className="w-12 h-12 mb-4 text-gray-700" />,
+      icon: <CarIcon className="w-12 h-12 mb-4 text-gray-700" />,
       description: "Perfect for intimate gatherings and business meetings",
       examples: [
         "Executive business travel",
@@ -60,10 +39,15 @@ const Services = () => {
         "Leather Seats",
         "Climate Control",
         "Entertainment System",
+        "Premium Sound System",
+        "Extended Luggage Space",
+        "USB Charging Ports",
+        "Panoramic Windows",
+        "LCD Screens",
       ],
     },
     "6-Wheelers": {
-      icon: <Users className="w-12 h-12 mb-4 text-gray-700" />,
+      icon: <Taxi className="w-12 h-12 mb-4 text-gray-700" />,
       description: "Ideal for medium-sized groups seeking comfort and style",
       examples: [
         "Corporate team outings",
@@ -73,14 +57,19 @@ const Services = () => {
         "Adventure group trips",
       ],
       features: [
+        "GPS Navigation",
+        "Leather Seats",
+        "Climate Control",
+        "Entertainment System",
         "Premium Sound System",
         "Extended Luggage Space",
         "USB Charging Ports",
         "Panoramic Windows",
+        "LCD Screens",
       ],
     },
     "8-Wheelers": {
-      icon: <Users className="w-12 h-12 mb-4 text-gray-700" />,
+      icon: <Truck className="w-12 h-12 mb-4 text-gray-700" />,
       description: "Perfect for large groups and special occasions",
       examples: [
         "Destination weddings",
@@ -90,14 +79,19 @@ const Services = () => {
         "Multi-family vacation trips",
       ],
       features: [
-        "Onboard Restroom",
-        "Mini Kitchen",
+        "GPS Navigation",
+        "Leather Seats",
+        "Climate Control",
         "Entertainment System",
-        "Large Storage Space",
+        "Premium Sound System",
+        "Extended Luggage Space",
+        "USB Charging Ports",
+        "Panoramic Windows",
+        "LCD Screens",
       ],
     },
     "10-Wheelers": {
-      icon: <Users className="w-12 h-12 mb-4 text-gray-700" />,
+      icon: <Bus className="w-12 h-12 mb-4 text-gray-700" />,
       description: "Designed for large-scale events and group tours",
       examples: [
         "School excursions",
@@ -107,10 +101,15 @@ const Services = () => {
         "Multi-day tour groups",
       ],
       features: [
-        "Multiple LCD Screens",
-        "Professional Sound System",
-        "Sleeping Bunks",
-        "Conference Setup",
+        "GPS Navigation",
+        "Leather Seats",
+        "Climate Control",
+        "Entertainment System",
+        "Premium Sound System",
+        "Extended Luggage Space",
+        "USB Charging Ports",
+        "Panoramic Windows",
+        "LCD Screens",
       ],
     },
   };
@@ -230,165 +229,6 @@ const Services = () => {
         specialPackages={specialPackages}
         addOnServices={addOnServices}
       />
-      {/* Navigation Tabs */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center space-x-4 mb-12">
-          {["vehicles", "packages", "addons"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 rounded-full text-lg font-semibold transition-all duration-300 ${
-                activeTab === tab
-                  ? "bg-gray-700 text-white shadow-lg"
-                  : "bg-white text-gray-700 hover:bg-blue-50"
-              }`}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </div>
-
-        {/* Vehicle Categories */}
-        {activeTab === "vehicles" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {Object.entries(vehicleExamples).map(([vehicle, data], index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105"
-              >
-                <div className="p-8">
-                  <div className="flex items-center justify-between mb-6">
-                    {data.icon}
-                    <span className="text-3xl font-bold text-gray-700">
-                      {vehicle}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 mb-6">{data.description}</p>
-
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="font-semibold text-gray-800 mb-2">
-                        Perfect For:
-                      </h4>
-                      <ul className="space-y-2">
-                        {data.examples.map((example, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-center text-gray-600"
-                          >
-                            <span className="w-2 h-2 bg-gray-700 rounded-full mr-2"></span>
-                            {example}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h4 className="font-semibold text-gray-800 mb-2">
-                        Features:
-                      </h4>
-                      <div className="grid grid-cols-2 gap-2">
-                        {data.features.map((feature, idx) => (
-                          <span
-                            key={idx}
-                            className="bg-blue-50 text-gray-700 px-3 py-1 rounded-full text-sm"
-                          >
-                            {feature}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Special Packages */}
-        {activeTab === "packages" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {specialPackages.map((pkg, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105"
-              >
-                <div className="p-8">
-                  <div className="flex items-center justify-between mb-6">
-                    {pkg.icon}
-                    <span className="text-2xl font-bold text-gray-700">
-                      {pkg.title}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 mb-6">{pkg.description}</p>
-
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-gray-800">Includes:</h4>
-                    <ul className="space-y-2">
-                      {pkg.features.map((feature, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-center text-gray-600"
-                        >
-                          <span className="w-2 h-2 bg-gray-700 rounded-full mr-2"></span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mt-6 pt-6 border-t border-gray-100">
-                    <span className="text-xl font-semibold text-gray-700">
-                      {pkg.price}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Add-on Services */}
-        {activeTab === "addons" && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {addOnServices.map((service, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105"
-              >
-                <div className="p-8">
-                  <div className="flex flex-col items-center mb-6">
-                    {service.icon}
-                    <h3 className="text-2xl font-bold text-gray-700 text-center">
-                      {service.title}
-                    </h3>
-                  </div>
-                  <p className="text-gray-600 text-center mb-6">
-                    {service.description}
-                  </p>
-
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-gray-800 text-center">
-                      Includes:
-                    </h4>
-                    <ul className="space-y-2">
-                      {service.benefits.map((benefit, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-center text-gray-600"
-                        >
-                          <span className="w-2 h-2 bg-gray-700 rounded-full mr-2"></span>
-                          {benefit}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
 
       {/* Call to Action */}
       <CallToAction />

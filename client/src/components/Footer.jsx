@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -10,18 +9,11 @@ import {
   Mail,
   MapPin,
   Clock,
-  Car,
   ChevronRight,
-  Send,
-  ArrowUp,
 } from "lucide-react";
 import NewsletterSection from "./NewsLetter";
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const quickLinks = [
     { label: "About Us", path: "/about" },
     { label: "Our Services", path: "/services" },
@@ -72,7 +64,7 @@ const Footer = () => {
 
             {/* Quick Links */}
             <div>
-              <h3 className="text-lg font-semibold mb-6 text-center">
+              <h3 className="text-lg font-semibold mb-6 text-start">
                 Quick Links
               </h3>
               <ul className="space-y-4">
@@ -84,7 +76,7 @@ const Footer = () => {
 
             {/* Services */}
             <div>
-              <h3 className="text-lg font-semibold mb-6 text-center">
+              <h3 className="text-lg font-semibold mb-6 text-start">
                 Our Services
               </h3>
               <ul className="space-y-4">
@@ -96,7 +88,7 @@ const Footer = () => {
 
             {/* Contact Info */}
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-center">Contact Us</h3>
+              <h3 className="text-lg font-semibold text-start">Contact Us</h3>
               <ul className="space-y-4 text-gray-400">
                 <ContactInfo
                   Icon={Phone}

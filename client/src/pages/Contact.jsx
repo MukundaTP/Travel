@@ -296,7 +296,7 @@ const ContactPage = () => {
                               <FormControl>
                                 <Input
                                   type="tel"
-                                  placeholder="9998887779"
+                                  placeholder="Enter your phone number"
                                   {...field}
                                   className="transition-all duration-300 focus:ring-2 focus:ring-gray-500"
                                 />
