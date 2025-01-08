@@ -1,43 +1,72 @@
 import Carousel from "react-bootstrap/Carousel";
 
+const carouselData = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww",
+    heading: "Explore the World with Us!",
+    text: "Book luxurious and comfortable 4-wheelers to 10-wheelers for your dream vacation destinations.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww",
+    heading: "Your Journey, Our Priority",
+    text: "Choose from our wide range of vehicles for a smooth and scenic road trip experience.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww",
+    heading: "Tailored Travel Experiences",
+    text: "From personal to group travel, we provide you with the perfect vehicle for every occasion.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww",
+    heading: "Perfect for Every Adventure",
+    text: "Whether it’s a solo retreat or a family vacation, we have the ideal vehicle for you.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww",
+    heading: "Your Perfect Road Companion",
+    text: "Enjoy a hassle-free travel experience with our reliable and well-maintained vehicles.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww",
+    heading: "Explore Beautiful Destinations",
+    text: "Travel in style to some of the most scenic destinations around the world.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww",
+    heading: "Adventure Awaits",
+    text: "Start your road trip adventure now with our premium fleet of vehicles available for any trip.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww",
+    heading: "Seamless Booking, Every Time",
+    text: "Book your trip today with ease and enjoy our prompt service and customer support.",
+  },
+];
+
 function CarouselComponent() {
   return (
-    <Carousel className="carousel-full-height">
-      <Carousel.Item interval={4000}>
-        <img
-          className="d-block w-100 carousel-image"
-          src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww"
-          alt="First slide"
-        />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item interval={500}>
-        <img
-          className="d-block w-100 carousel-image"
-          src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww"
-          alt="Second slide"
-        />
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100 carousel-image"
-          src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJhdmVsfGVufDB8fDB8fHww"
-          alt="Third slide"
-        />
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
+    <Carousel className="carousel-full-height mt-[-60px]">
+      {carouselData.map((item, index) => (
+        <Carousel.Item key={index} interval={4000}>
+          <img
+            className="d-block w-100 carousel-image"
+            src={item.image}
+            alt={`Slide ${index + 1}`}
+          />
+          <Carousel.Caption>
+            <h3>{item.heading}</h3>
+            <p>{item.text}</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
     </Carousel>
   );
 }
