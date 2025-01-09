@@ -3,36 +3,68 @@ const CatchAsyncErrors = require("../utils/CatchAsyncErrors");
 const ErrorHandler = require("../utils/errorHandler");
 const cloudinary = require("cloudinary");
 
-// Create Review
-exports.createReview = CatchAsyncErrors(async (req, res, next) => {
+// Create or Update Review
+exports.createOrUpdateReview = CatchAsyncErrors(async (req, res, next) => {
   // 1. Check if all required fields are present
-  const { name, message, rating } = req.body;
+  const { name, email, message, rating, image } = req.body;
 
-  // 3. Handle avatar upload to cloudinary
+  if (!name || !email || !message || !rating || !image) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required",
+    });
+  }
+
+  // 2. Handle avatar upload to Cloudinary
   let avatarData = {};
+  try {
+    const result = await cloudinary.v2.uploader.upload(image, {
+      folder: "travel/reviews",
+      width: 700,
+      height: 700,
+      crop: "scale",
+    });
 
-  // Upload avatar to cloudinary
-  const result = await cloudinary.v2.uploader.upload(req.body.image, {
-    folder: "travel/reviews",
-    width: 700,
-    height: 700,
-    crop: "scale",
-  });
+    avatarData = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to upload image",
+    });
+  }
 
-  avatarData = {
-    public_id: result.public_id,
-    url: result.secure_url,
-  };
+  // 3. Check if a review with the same email already exists
+  let review = await Reviews.findOne({ email });
 
-  // 4. Create review with all data
-  const review = await Reviews.create({
+  if (review) {
+    // Update existing review
+    review.name = name;
+    review.message = message;
+    review.rating = rating;
+    review.avatar = avatarData;
+
+    await review.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Review updated successfully",
+      review,
+    });
+  }
+
+  // 4. Create a new review if none exists
+  review = await Reviews.create({
     name,
+    email,
     message,
     rating,
     avatar: avatarData,
   });
 
-  // 5. Send success response
+  // 5. Send success response for creation
   res.status(201).json({
     success: true,
     message: "Review created successfully",

@@ -1,7 +1,7 @@
 const express = require("express");
 const {
-  createReview,
   getAllReviews,
+  createOrUpdateReview,
 } = require("../controllers/ReviewController");
 const {
   isAuthenticatedUser,
@@ -10,6 +10,6 @@ const {
 const router = express.Router();
 
 router.route("/").get(getAllReviews);
-router.route("/postReview").post(createReview);
+router.route("/postReview").post(createOrUpdateReview);
 
 module.exports = router;

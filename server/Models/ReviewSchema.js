@@ -5,6 +5,9 @@ const ReviewSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    email: {
+      type: String,
+    },
     message: {
       type: String,
       trim: true,

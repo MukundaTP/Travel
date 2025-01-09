@@ -143,26 +143,6 @@ export function AnimatedTestimonialsDemo() {
             </motion.div>
           </div>
         )}
-
-        {/* Review Form Drawer */}
-        <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Share Your Experience</DrawerTitle>
-              <DrawerDescription>
-                Tell us about your experience with our service.
-              </DrawerDescription>
-            </DrawerHeader>
-            {/* The actual form content is in the AnimatedTestimonials component */}
-            <DrawerFooter>
-              <DrawerClose asChild>
-                <Button variant="outline" onClick={handleDrawerClose}>
-                  Cancel
-                </Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
       </motion.div>
     </AnimatePresence>
   );

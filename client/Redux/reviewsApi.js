@@ -20,13 +20,12 @@ export const reviewsApi = createApi({
 
         // Transform reviews into the format needed by AnimatedTestimonials
         return response.reviews.map((review) => ({
-          id: review._id,
           name: review.name,
           designation: "Verified Customer", // You can customize this
-          quote: review.message,
           rating: review.rating,
           src: review.avatar.url,
           timestamp: review.createdAt,
+          message: review.message,
         }));
       },
       // Add cache configuration

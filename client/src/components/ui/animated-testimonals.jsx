@@ -38,6 +38,8 @@ const reviewSchema = z.object({
     .string()
     .min(2, { message: "Name must be at least 2 characters" })
     .max(50, { message: "Name must be less than 50 characters" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+
   message: z
     .string()
     .min(10, { message: "Message must be at least 10 characters" })
@@ -64,7 +66,8 @@ export const AnimatedTestimonials = ({
 }) => {
   const [active, setActive] = useState(0);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [createReview] = usePostReviewMutation();
+  const [createReview, { isLoading: submitReviewLoading }] =
+    usePostReviewMutation();
   const alert = useAlert();
 
   const form = useForm({
@@ -74,6 +77,7 @@ export const AnimatedTestimonials = ({
       message: "",
       rating: 0,
       image: undefined,
+      email: "",
     },
   });
 
@@ -136,6 +140,7 @@ export const AnimatedTestimonials = ({
         message: data.message,
         rating: data.rating,
         image: avatarData,
+        email: data.email,
       }).unwrap();
 
       // Show success message
@@ -305,8 +310,12 @@ export const AnimatedTestimonials = ({
         </motion.div>
       </div>
 
-      <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
-        <DrawerContent>
+      <Drawer
+        className="z-[9999]"
+        open={isDrawerOpen}
+        onOpenChange={setDrawerOpen}
+      >
+        <DrawerContent className="z-[9999]">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <DrawerHeader>
@@ -325,6 +334,19 @@ export const AnimatedTestimonials = ({
                       <FormLabel>Your Name</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter your name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your email" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -402,7 +424,9 @@ export const AnimatedTestimonials = ({
               </div>
 
               <DrawerFooter>
-                <Button type="submit">Submit Review</Button>
+                <Button type="submit" disabled={submitReviewLoading}>
+                  {!submitReviewLoading ? "Submit" : "Submitting Review..."}
+                </Button>
                 <DrawerClose asChild>
                   <Button variant="outline" onClick={handleDrawerClose}>
                     Cancel
