@@ -44,8 +44,41 @@ export const myApi = createApi({
         credentials: "include",
       }),
     }),
+    updatePassword: builder.mutation({
+      query: (credentials) => ({
+        url: "updatePassword",
+        method: "PUT",
+        body: credentials,
+        credentials: "include",
+      }),
+    }),
+    resetPasswordMail: builder.mutation({
+      query: (email) => ({
+        url: "forgotPassword",
+        method: "PUT",
+        body: email,
+        credentials: "include",
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: `resetPassword/${data?.token}`,
+        method: "PUT",
+        credentials: "include",
+        body: {
+          password: data?.password,
+          confirmPassword: data?.confirmPassword,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } =
-  myApi;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useUpdatePasswordMutation,
+  useResetPasswordMailMutation,
+  useResetPasswordMutation,
+} = myApi;

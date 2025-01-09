@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -51,6 +51,10 @@ const registerSchema = z
   });
 
 const Register = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [avatarFile, setAvatarFile] = useState(null);
   const [register, { isLoading }] = useRegisterMutation();
   const navigate = useNavigate();

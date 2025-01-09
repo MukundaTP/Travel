@@ -10,6 +10,11 @@ import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import UpdatePassword from "./pages/UpdatePassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
+// import ForgotPassword from "./pages/ForgotPassword";
 
 const App = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -46,7 +51,12 @@ const App = () => {
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/services" element={<Services />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/forgot-password" element={<ForgotPassword />}></Route>
+        <Route path="/update-password" element={<UpdatePassword />}></Route>
+        <Route path="/reset/password/:token" element={<ResetPassword />} />{" "}
+        <Route path="/profile" element={<Profile />} />{" "}
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer />

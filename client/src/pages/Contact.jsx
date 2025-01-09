@@ -20,13 +20,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Phone, Mail, MapPin, Clock, Send, Plane } from "lucide-react";
 import { useForm } from "react-hook-form";
 
