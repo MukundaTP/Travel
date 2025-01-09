@@ -1,9 +1,9 @@
 const ErrorHandler = require("../utils/ErrorHandler");
 const jwt = require("jsonwebtoken");
-const User = require("../models/UserSchema");
-const catchAsyncError = require("../utils/catchAsyncError");
+const User = require("../Models/UserSchema");
+const CatchAsyncErrors = require("../utils/CatchAsyncErrors");
 
-exports.isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
+exports.isAuthenticatedUser = CatchAsyncErrors(async (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
     return next(new ErrorHandler("Please login to access this resource", 401));
@@ -15,7 +15,7 @@ exports.isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
   next();
 });
 
-exports.isAdmin = catchAsyncError(async (req, res, next) => {
+exports.isAdmin = CatchAsyncErrors(async (req, res, next) => {
   const { user } = req;
   const { isAdmin } = user;
 

@@ -11,14 +11,10 @@ const corsOptions = {
   credentials: true,
 };
 
-app.get("/sitemap.xml", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "sitemap.xml"));
-});
-
 const fileUpload = require("express-fileupload");
 require("dotenv").config();
 // const Enrollment = require("./routes/Enrollment");
-// const UserRoute = require("./routes/UserRoute");
+const UserRoute = require("./Routes/UserRoute");
 // const AdminRoute = require("./routes/adminRoutes");W
 // const PaymentRoute = require("./routes/paymentRoute");
 const error = require("./middlewares/error");
@@ -42,12 +38,17 @@ app.use(
 app.use(cookie());
 app.use(cors(corsOptions));
 
-// app.use("/api", UserRoute);
+app.use("/api", UserRoute);
 // app.use("/api", Enrollment);
 // app.use("/api/admin", AdminRoute);
 // app.use("/api/payment", PaymentRoute);
 app.use(error);
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 // Database connection
 dbConnection(process.env.URI);
 
