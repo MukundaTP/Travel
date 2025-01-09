@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/form";
 import { Phone, Mail, MapPin, Clock, Send, Plane } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { usePostContactQueryMutation } from "../../Redux/contactApi";
+import { useAlert } from "react-alert";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -65,6 +67,14 @@ const contactFormSchema = z.object({
       /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/,
       "Please enter a valid phone number"
     ),
+  altPhone: z
+    .string()
+    .min(10, "Alternative Phone number must be at least 10 digits")
+    .max(15, "Alternative Phone number must not exceed 15 digits")
+    .regex(
+      /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/,
+      "Please enter a valid phone number"
+    ),
   message: z
     .string()
     .min(10, "Message must be at least 10 characters")
@@ -75,7 +85,8 @@ const ContactPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
+  const [postContactQuery, { isLoading }] = usePostContactQueryMutation();
+  const alert = useAlert();
   const form = useForm({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -85,18 +96,32 @@ const ContactPage = () => {
       phone: "",
       destination: "",
       message: "",
+      altPhone: "",
     },
   });
 
   const onSubmit = async (data) => {
     try {
-      // Handle form submission here
-      alert("Form submitted successfully!");
+      const result = await postContactQuery({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        altPhone: data.altPhone,
+        message: data.message,
+      }).unwrap();
+
+      // Show success message
+      alert.success(result.message);
+
+      // Reset form
+      form.reset();
     } catch (error) {
+      // Show error message
+      alert.error(error?.data?.err || "Failed to submit query");
       console.error("Error submitting form:", error);
     }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
@@ -298,6 +323,26 @@ const ContactPage = () => {
                           )}
                         />
                       </motion.div>
+                      <motion.div variants={formFieldVariants}>
+                        <FormField
+                          control={form.control}
+                          name="altPhone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Alternative Phone Number</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="tel"
+                                  placeholder="Enter your alternative phone number"
+                                  {...field}
+                                  className="transition-all duration-300 focus:ring-2 focus:ring-gray-500"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </motion.div>
 
                       <motion.div variants={formFieldVariants}>
                         <FormField
@@ -325,10 +370,12 @@ const ContactPage = () => {
                         className="mt-6"
                       >
                         <Button
+                          disabled={isLoading}
                           type="submit"
                           className="w-full bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-800 hover:to-gray-950 transition-all duration-300"
                         >
-                          <Send className="mr-2 h-4 w-4" /> Send Message
+                          <Send className="mr-2 h-4 w-4" />{" "}
+                          {isLoading ? "Sending message..." : "Send Message"}
                         </Button>
                       </motion.div>
                     </form>

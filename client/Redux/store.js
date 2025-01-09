@@ -5,17 +5,18 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { myApi } from "./authApi";
 import UserSlice from "./UserSlice";
 import { reviewsApi } from "./reviewsApi";
+import { contactApi } from "./contactApi";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"],
 };
 
 const rootReducer = combineReducers({
   user: UserSlice,
   [myApi.reducerPath]: myApi.reducer,
   [reviewsApi.reducerPath]: reviewsApi.reducer,
+  [contactApi.reducerPath]: contactApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -25,7 +26,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(myApi.middleware)
-      .concat(reviewsApi.middleware),
+      .concat(reviewsApi.middleware)
+      .concat(contactApi.middleware),
 });
 
 setupListeners(store.dispatch);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -28,6 +28,10 @@ import { useLogoutMutation } from "../../Redux/authApi";
 import { useAlert } from "react-alert";
 
 const Profile = () => {
+  // Scroll to top when the component is mounted (when the page loads)
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
   const navigate = useNavigate();
   const { user } = useSelector((state) => state?.user);
   const [isImageHovered, setIsImageHovered] = useState(false);
