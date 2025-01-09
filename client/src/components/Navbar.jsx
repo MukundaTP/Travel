@@ -375,7 +375,7 @@ const Navbar = () => {
                         Login
                       </Button>
                       <Button
-                        className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                        className="w-full bg-gray-700 text-white hover:bg-blue-700"
                         onClick={() => {
                           navigate("/register");
                           setIsMobileMenuOpen(false);

@@ -6,7 +6,6 @@ export function FileUploadDemo() {
   const [files, setFiles] = useState([]);
   const handleFileUpload = (files) => {
     setFiles(files);
-    console.log(files);
   };
 
   return (

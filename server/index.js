@@ -15,6 +15,7 @@ const fileUpload = require("express-fileupload");
 require("dotenv").config();
 // const Enrollment = require("./routes/Enrollment");
 const UserRoute = require("./Routes/UserRoute");
+const ReviewsRoute = require("./Routes/ReviewsRoute");
 // const AdminRoute = require("./routes/adminRoutes");W
 // const PaymentRoute = require("./routes/paymentRoute");
 const error = require("./middlewares/error");
@@ -39,6 +40,7 @@ app.use(cookie());
 app.use(cors(corsOptions));
 
 app.use("/api", UserRoute);
+app.use("/api/reviews", ReviewsRoute);
 // app.use("/api", Enrollment);
 // app.use("/api/admin", AdminRoute);
 // app.use("/api/payment", PaymentRoute);

@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useAlert } from "react-alert";
 import {
   Form,
   FormControl,
@@ -27,6 +28,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { usePostReviewMutation } from "../../../Redux/reviewsApi";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -54,10 +56,16 @@ const reviewSchema = z.object({
     ),
 });
 
-export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
+export const AnimatedTestimonials = ({
+  testimonials,
+  autoplay = true,
+  isDrawerOpen,
+  setDrawerOpen,
+}) => {
   const [active, setActive] = useState(0);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [createReview] = usePostReviewMutation();
+  const alert = useAlert();
 
   const form = useForm({
     resolver: zodResolver(reviewSchema),
@@ -86,8 +94,6 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
     }
   }, [autoplay]);
 
-  const handleDrawerOpen = () => setDrawerOpen(true);
-
   const handleDrawerClose = () => {
     setDrawerOpen(false);
     form.reset();
@@ -106,14 +112,42 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
 
   const onSubmit = async (data) => {
     try {
-      // Here you would typically upload the image to your server
-      console.log("Submitting review:", {
-        ...data,
-        image: data.image.name,
-      });
+      let avatarData;
+
+      if (data.image) {
+        // Handle image file and convert to base64
+        const file = data.image;
+        const reader = new FileReader();
+
+        avatarData = await new Promise((resolve, reject) => {
+          reader.onload = () => {
+            if (reader.readyState === 2) {
+              resolve(reader.result); // Resolve with the base64 string
+            }
+          };
+          reader.onerror = () => reject("Failed to read file");
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Create the review with image data
+      const result = await createReview({
+        name: data.name,
+        message: data.message,
+        rating: data.rating,
+        image: avatarData,
+      }).unwrap();
+
+      // Show success message
+      alert.success(result.message);
+
+      // Close drawer and reset form
       handleDrawerClose();
+      form.reset();
     } catch (error) {
-      console.error("Error submitting review:", error);
+      // Show error message
+      alert.error(error?.data?.err || "Failed to submit review");
+      console.error("Error submitting review:", error.message);
     }
   };
 
@@ -125,7 +159,7 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
     const [hoveredStar, setHoveredStar] = useState(0);
 
     return (
-      <div className="flex gap-1 mb-4">
+      <div className={`flex gap-1 mb-4`}>
         {[...Array(5)].map((_, index) => (
           <motion.span
             key={index}
@@ -150,7 +184,11 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
 
   return (
     <>
-      <div className="mx-auto px-4 md:px-8 lg:px-12 py-20 bg-gradient-to-b from-gray-900 via-gray-900 to-black">
+      <div
+        className={`${
+          testimonials?.length ? "block" : "hidden"
+        } mx-auto px-4 md:px-8 lg:px-12 py-20 bg-gradient-to-b from-gray-900 via-gray-900 to-black`}
+      >
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -170,7 +208,7 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
           <div>
             <div className="relative h-80 w-full">
               <AnimatePresence>
-                {testimonials.map((testimonial, index) => (
+                {testimonials?.map((testimonial, index) => (
                   <motion.div
                     key={testimonial.src}
                     initial={{
@@ -201,9 +239,9 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
                     className="absolute inset-0 origin-bottom"
                   >
                     <img
-                      src={testimonial.src}
-                      alt={testimonial.name}
-                      className="h-full w-full rounded-3xl object-cover"
+                      src={testimonial?.src}
+                      alt={testimonial?.name}
+                      className="h-full w-[80%] rounded-3xl"
                     />
                   </motion.div>
                 ))}
@@ -220,14 +258,15 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
               transition={{ duration: 0.2, ease: "easeInOut" }}
             >
               <h3 className="text-2xl font-bold text-white">
-                {testimonials[active].name}
+                {testimonials[active]?.name}
               </h3>
               <p className="text-sm text-white opacity-60">
-                {testimonials[active].designation}
+                {testimonials[active]?.designation}
               </p>
               <motion.p className="text-lg text-white mt-8">
-                {testimonials[active].quote}
+                {testimonials[active]?.message}
               </motion.p>
+              <StarRating rating={testimonials[active]?.rating} />
             </motion.div>
 
             <div className="flex gap-4 pt-12 md:pt-0">
@@ -258,7 +297,7 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
           className="text-center mt-24"
         >
           <Button
-            onClick={handleDrawerOpen}
+            onClick={setDrawerOpen} // Use the prop here
             className="bg-white text-gray-700 hover:bg-gray-100"
           >
             Share Your Experience

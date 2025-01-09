@@ -91,7 +91,6 @@ const ContactPage = () => {
   const onSubmit = async (data) => {
     try {
       // Handle form submission here
-      console.log(data);
       alert("Form submitted successfully!");
     } catch (error) {
       console.error("Error submitting form:", error);
