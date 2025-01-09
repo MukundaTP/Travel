@@ -1,12 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, MapPin, Phone, Car } from "lucide-react";
+import {
+  Menu,
+  X,
+  MapPin,
+  Phone,
+  Car,
+  LogOut,
+  User as UserIcon,
+} from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { LogoutUser } from "../../Redux/UserSlice";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useLogoutMutation } from "../../Redux/authApi";
+import { useAlert } from "react-alert";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const alert = useAlert();
+
+  // Get user from Redux store
+  const { user } = useSelector((state) => state?.user);
 
   // Handle scroll effect
   useEffect(() => {
@@ -16,6 +42,18 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      const data = await logout().unwrap();
+      alert.success(data?.message);
+      dispatch(LogoutUser());
+      navigate("/login");
+    } catch (e) {
+      alert.error(e?.data?.err);
+      return;
+    }
+  };
 
   const navItems = [
     { path: "/", label: "Home" },
@@ -75,6 +113,51 @@ const Navbar = () => {
     },
   };
 
+  const AuthButtons = () => (
+    <div className="flex items-center gap-4">
+      <Button
+        variant="ghost"
+        className="text-gray-700 hover:text-white hover:bg-gray-700 transform transition-all duration-150"
+        onClick={() => navigate("/login")}
+      >
+        Login
+      </Button>
+      <Button
+        className="bg-gray-800 hover:bg-gray-700 text-white active:scale-90"
+        onClick={() => navigate("/register")}
+      >
+        Register
+      </Button>
+    </div>
+  );
+
+  const UserMenu = () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+          <Avatar className="h-8 w-8">
+            <AvatarImage src={user?.avatar?.url} alt={user?.name} />
+            <AvatarFallback>
+              {user?.name?.charAt(0)?.toUpperCase() || (
+                <UserIcon className="h-4 w-4" />
+              )}
+            </AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => navigate("/profile")}>
+          <UserIcon className="mr-2 h-4 w-4" />
+          Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Logout
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
   return (
     <>
       <motion.nav
@@ -95,7 +178,7 @@ const Navbar = () => {
             >
               <NavLink to="/" className="flex items-center gap-2 no-underline">
                 <Car className="h-8 w-8 text-gray-700" />
-                <span className="font-bold text-xl text-gray-800 italic ">
+                <span className="font-bold text-xl text-gray-800 italic">
                   TravelEase
                 </span>
               </NavLink>
@@ -140,6 +223,11 @@ const Navbar = () => {
                   </NavLink>
                 </motion.div>
               ))}
+            </div>
+
+            {/* Auth Section - Desktop */}
+            <div className="hidden md:block">
+              {user ? <UserMenu /> : <AuthButtons />}
             </div>
 
             {/* Mobile menu button */}
@@ -195,7 +283,7 @@ const Navbar = () => {
                     className="flex items-center gap-2 no-underline"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Car className="h-8 w-8 text-gray-700 " />
+                    <Car className="h-8 w-8 text-gray-700" />
                     <span className="font-bold text-xl text-gray-800 italic">
                       TravelEase
                     </span>
@@ -224,8 +312,8 @@ const Navbar = () => {
                       className={({ isActive }) =>
                         `no-underline block px-3 py-2 text-base font-medium rounded-md ${
                           isActive
-                            ? "text-blue-600 bg-blue-50 "
-                            : "text-gray-700 hover:text-blue-600 hover:bg-gray-50 "
+                            ? "text-blue-600 bg-blue-50"
+                            : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
                         }`
                       }
                       onClick={() => setIsMobileMenuOpen(false)}
@@ -234,6 +322,70 @@ const Navbar = () => {
                     </NavLink>
                   </motion.div>
                 ))}
+
+                {/* Auth Section - Mobile */}
+                <div className="pt-4 border-t border-gray-200">
+                  {user ? (
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 px-3 py-2">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage
+                            src={user?.avatar?.url}
+                            alt={user?.name}
+                          />
+                          <AvatarFallback>
+                            {user?.name?.charAt(0)?.toUpperCase() || (
+                              <UserIcon className="h-4 w-4" />
+                            )}
+                          </AvatarFallback>
+                        </Avatar>
+                        <span className="font-medium text-gray-900">
+                          {user.name}
+                        </span>
+                      </div>
+                      <NavLink
+                        to="/profile"
+                        className="flex items-center px-3 py-2 text-gray-700 hover:text-blue-600"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <UserIcon className="h-5 w-5 mr-2" />
+                        Profile
+                      </NavLink>
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="flex items-center w-full px-3 py-2 text-gray-700 hover:text-blue-600"
+                      >
+                        <LogOut className="h-5 w-5 mr-2" />
+                        Logout
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start"
+                        onClick={() => {
+                          navigate("/login");
+                          setIsMobileMenuOpen(false);
+                        }}
+                      >
+                        Login
+                      </Button>
+                      <Button
+                        className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                        onClick={() => {
+                          navigate("/register");
+                          setIsMobileMenuOpen(false);
+                        }}
+                      >
+                        Register
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Contact info in mobile menu */}
