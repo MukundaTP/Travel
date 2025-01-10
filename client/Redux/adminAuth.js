@@ -15,7 +15,6 @@ export const adminApi = createApi({
       providesTags: ["Users", "Reviews", "ContactQueries"], // Add this for cache invalidation
       transformResponse: (response) => {
         // Add a transform to handle the response structure
-        console.log("API Response:", response);
         return response;
       },
     }),
@@ -40,7 +39,6 @@ export const adminApi = createApi({
       query: () => "reviews",
       providesTags: ["Reviews"], // Add this for cache invalidation
       transformResponse: (response) => {
-        console.log("API Response:", response);
         return response;
       },
     }),
@@ -65,7 +63,6 @@ export const adminApi = createApi({
       query: () => "contact-queries",
       providesTags: ["ContactQueries"], // Add this for cache invalidation
       transformResponse: (response) => {
-        console.log("API Response:", response);
         return response;
       },
     }),

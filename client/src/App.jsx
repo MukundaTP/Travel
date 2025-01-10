@@ -1,24 +1,26 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa"; // Import arrow icon
-import { useState, useEffect } from "react";
-import Home from "./pages/Home";
-import TravelNavbar from "./components/Navbar";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Services from "./pages/Services";
-import NotFound from "./pages/NotFound";
-import Footer from "./components/Footer";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import UpdatePassword from "./pages/UpdatePassword";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import Profile from "./pages/Profile";
-import AdminDashboard from "./pages/Admin/AdminDashboard";
-import ContactQueries from "./pages/Admin/ContactQueries";
-import Reviews from "./pages/Admin/Reviews";
-import Users from "./pages/Admin/Users";
-import AdminLayout from "./pages/Admin/AdminLayout";
+import React, { useState, useEffect, Suspense } from "react";
+import ProtectedRoute from "./components/layouts/ProtectedRoute";
+import PageLoader from "./components/layouts/PageLoader";
+const Home = React.lazy(() => import("./pages/Home"));
+const TravelNavbar = React.lazy(() => import("./components/layouts/Navbar"));
+const About = React.lazy(() => import("./pages/About"));
+const Contact = React.lazy(() => import("./pages/Contact"));
+const Services = React.lazy(() => import("./pages/Services"));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
+const Footer = React.lazy(() => import("./components/Footer"));
+const Register = React.lazy(() => import("./pages/Register"));
+const Login = React.lazy(() => import("./pages/Login"));
+const UpdatePassword = React.lazy(() => import("./pages/UpdatePassword"));
+const ForgotPassword = React.lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = React.lazy(() => import("./pages/ResetPassword"));
+const Profile = React.lazy(() => import("./pages/Profile"));
+const AdminDashboard = React.lazy(() => import("./pages/Admin/AdminDashboard"));
+const ContactQueries = React.lazy(() => import("./pages/Admin/ContactQueries"));
+const Reviews = React.lazy(() => import("./pages/Admin/Reviews"));
+const Users = React.lazy(() => import("./pages/Admin/Users"));
+const AdminLayout = React.lazy(() => import("./pages/Admin/AdminLayout"));
 // import ForgotPassword from "./pages/ForgotPassword";
 
 const App = () => {
@@ -49,38 +51,41 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <TravelNavbar />
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/contact" element={<Contact />}></Route>
-        <Route path="/services" element={<Services />}></Route>
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/forgot-password" element={<ForgotPassword />}></Route>
-        <Route path="/update-password" element={<UpdatePassword />}></Route>
-        <Route path="/reset/password/:token" element={<ResetPassword />} />{" "}
-        <Route path="/profile" element={<Profile />} />{" "}
-        <Route element={<AdminLayout />}>
-          <Route path="/dashboard" element={<AdminDashboard />} />{" "}
-          <Route path="/queries" element={<ContactQueries />} />{" "}
-          <Route path="/reviews" element={<Reviews />} />{" "}
-          <Route path="/users" element={<Users />} />{" "}
-        </Route>
-        <Route path="*" element={<NotFound />}></Route>
-      </Routes>
-      <Footer />
+      <Suspense fallback={<PageLoader />}>
+        <TravelNavbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
+          <Route path="/reset/password/:token" element={<ResetPassword />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AdminLayout />}>
+              <Route path="/dashboard" element={<AdminDashboard />} />
+              <Route path="/queries" element={<ContactQueries />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/users" element={<Users />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
 
-      {/* Scroll-to-top button */}
-      {isVisible && (
-        <div
-          onClick={scrollToTop}
-          className="fixed bottom-10 right-10 cursor-pointer animate-bounce z-50"
-        >
-          <FaArrowUp className="w-10 h-10 text-white bg-gray-900 p-2 rounded-full" />
-        </div>
-      )}
+        {/* Scroll-to-top button */}
+        {isVisible && (
+          <div
+            onClick={scrollToTop}
+            className="fixed bottom-10 right-10 cursor-pointer animate-bounce z-50"
+          >
+            <FaArrowUp className="w-10 h-10 text-white bg-gray-900 p-2 rounded-full" />
+          </div>
+        )}
+      </Suspense>
     </BrowserRouter>
   );
 };

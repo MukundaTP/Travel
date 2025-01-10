@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
@@ -12,7 +12,7 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
-import { LogoutUser } from "../../Redux/UserSlice";
+import { LogoutUser } from "../../../Redux/UserSlice";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,9 +20,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useLogoutMutation } from "../../Redux/authApi";
+import { useLogoutMutation } from "../../../Redux/authApi";
 import { useAlert } from "react-alert";
+import { AvatarImage, AvatarFallback, Avatar } from "../ui/avatar";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);

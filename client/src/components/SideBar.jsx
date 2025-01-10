@@ -1,10 +1,9 @@
 // components/SideBar.jsx
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard,
-  Settings,
   UserCircle,
   LogOut,
   ChevronLeft,
@@ -13,12 +12,10 @@ import {
   MessageSquare,
   Star,
 } from "lucide-react";
-import { useSelector } from "react-redux";
-
-const classNames = (...classes) => {
-  return classes.filter(Boolean).join(" ");
-};
-
+import { useDispatch, useSelector } from "react-redux";
+import { useLogoutMutation } from "../../Redux/authApi";
+import { LogoutUser } from "../../Redux/UserSlice";
+import { useAlert } from "react-alert";
 const Sidebar = ({ open, setOpen, children }) => (
   <motion.div
     initial={false}
@@ -50,6 +47,22 @@ const Sidebar = ({ open, setOpen, children }) => (
 export const SidebarDemo = () => {
   const [open, setOpen] = useState(true);
   const { user } = useSelector((state) => state?.user);
+  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+  const alert = useAlert();
+
+  const handleLogout = async () => {
+    try {
+      const data = await logout().unwrap();
+      alert.success(data?.message);
+      dispatch(LogoutUser());
+      navigate("/login");
+    } catch (e) {
+      alert.error(e?.data?.err);
+      return;
+    }
+  };
 
   const menuItems = [
     {
@@ -153,12 +166,13 @@ export const SidebarDemo = () => {
               )}
             </div>
             <button className="mt-4 flex items-center justify-center space-x-2 text-gray-700 hover:bg-white w-full py-2 px-3 rounded-lg transition-all">
-              <LogOut className="h-5 w-5" />
+              <LogOut onClick={handleLogout} className="h-5 w-5" />
               {open && (
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="font-medium"
+                  onClick={handleLogout}
                 >
                   Logout
                 </motion.span>

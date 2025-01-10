@@ -179,7 +179,7 @@ const Profile = () => {
                     <Button
                       variant="outline"
                       className="w-full justify-start hover:bg-blue-50 hover:text-blue-600"
-                      onClick={() => navigate("/admin/dashboard")}
+                      onClick={() => navigate("/dashboard")}
                     >
                       <Shield className="w-4 h-4 mr-2" />
                       Admin Dashboard
