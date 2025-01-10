@@ -1,4 +1,4 @@
-import { AnimatedTestimonialsDemo } from "@/components/AnimatedTestimonals";
+import { AnimatedTestimonialsDemo } from "@/components/HomeComponents/AnimatedTestimonals";
 import CarouselComponent from "@/components/Carousel";
 import HighlightSection from "@/components/HighLightSection";
 import { useEffect } from "react";

@@ -1,4 +1,5 @@
 import { reasonsToChooseUs } from "@/constants/ReasonsToChooseUs";
+import WhyChooseUsCard from "./WhyChooseUsCard";
 
 // Why Choose Us Component (unchanged)
 const WhyChooseUs = () => (
@@ -9,17 +10,7 @@ const WhyChooseUs = () => (
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {reasonsToChooseUs.map((reason) => (
-          <div
-            key={reason.title}
-            className="reason p-8 rounded-lg bg-gray-800 transform transition-transform duration-300 hover:scale-105"
-          >
-            <h3 className="text-2xl font-bold mb-4 text-white">
-              {reason.title}
-            </h3>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              {reason.description}
-            </p>
-          </div>
+          <WhyChooseUsCard key={reason.title} reason={reason} />
         ))}
       </div>
     </div>
