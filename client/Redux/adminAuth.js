@@ -12,7 +12,7 @@ export const adminApi = createApi({
   endpoints: (builder) => ({
     getAllUsers: builder.query({
       query: () => "users",
-      providesTags: ["Users", "Reviews"], // Add this for cache invalidation
+      providesTags: ["Users", "Reviews", "ContactQueries"], // Add this for cache invalidation
       transformResponse: (response) => {
         // Add a transform to handle the response structure
         console.log("API Response:", response);
@@ -61,6 +61,22 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["Reviews"],
     }),
+    getAllContactQueries: builder.query({
+      query: () => "contact-queries",
+      providesTags: ["ContactQueries"], // Add this for cache invalidation
+      transformResponse: (response) => {
+        console.log("API Response:", response);
+        return response;
+      },
+    }),
+    deleteContactQueries: builder.mutation({
+      query: (id) => ({
+        url: `contact-query/${id}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["ContactQueries"],
+    }),
   }),
 });
 
@@ -71,4 +87,6 @@ export const {
   useGetAllReviewsQuery,
   useDeleteReviewMutation,
   useUpdateReviewMutation,
+  useGetAllContactQueriesQuery,
+  useDeleteContactQueriesMutation,
 } = adminApi;

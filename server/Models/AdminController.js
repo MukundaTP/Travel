@@ -1,5 +1,6 @@
 const CatchAsyncErrors = require("../utils/CatchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
+const Contact = require("./ContactSchema");
 const Reviews = require("./ReviewSchema");
 const User = require("./UserSchema");
 const cloudinary = require("cloudinary");
@@ -171,5 +172,40 @@ exports.deleteReview = CatchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Review deleted successfully",
+  });
+});
+
+// Get all contact queries
+exports.getAllContactQueries = CatchAsyncErrors(async (req, res, next) => {
+  const queries = await Contact.find().sort({ createdAt: -1 }); // Sort by newest first
+
+  res.status(200).json({
+    success: true,
+    count: queries.length,
+    queries,
+  });
+});
+
+// Delete contact query
+exports.deleteContactQuery = CatchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return next(new ErrorHandler("Query ID is required", 400));
+  }
+
+  // Find query
+  const query = await Contact.findById(id);
+
+  if (!query) {
+    return next(new ErrorHandler("Query not found", 404));
+  }
+
+  // Delete query
+  await Contact.deleteOne({ _id: id });
+
+  res.status(200).json({
+    success: true,
+    message: "Contact query deleted successfully",
   });
 });

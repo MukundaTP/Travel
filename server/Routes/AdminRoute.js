@@ -10,6 +10,8 @@ const {
   getAllReviews,
   updateReview,
   deleteReview,
+  getAllContactQueries,
+  deleteContactQuery,
 } = require("../Models/AdminController");
 const router = express.Router();
 
@@ -24,5 +26,13 @@ router
   .route("/review/:id")
   .patch(isAuthenticatedUser, isAdmin, updateReview)
   .delete(isAuthenticatedUser, isAdmin, deleteReview);
+
+router
+  .route("/contact-queries")
+  .get(isAuthenticatedUser, isAdmin, getAllContactQueries);
+
+router
+  .route("/contact-query/:id")
+  .delete(isAuthenticatedUser, isAdmin, deleteContactQuery);
 
 module.exports = router;
