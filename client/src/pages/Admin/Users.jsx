@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -59,7 +59,12 @@ import {
 import { useAlert } from "react-alert";
 
 const Users = () => {
+  // Scroll to top when the component is mounted (when the page loads)
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []); // Empty dependency array ensures this runs only once when the component mountsconst
   const [searchTerm, setSearchTerm] = useState("");
+
   const [userToDelete, setUserToDelete] = useState(null);
   const [userToEdit, setUserToEdit] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -160,7 +165,7 @@ const Users = () => {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full mt-16">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
@@ -169,10 +174,10 @@ const Users = () => {
               Manage your user base from this dashboard.
             </CardDescription>
           </div>
-          <Button className="flex items-center gap-2">
+          {/* <Button className="flex items-center gap-2">
             <UserPlus className="h-4 w-4" />
             Add New User
-          </Button>
+          </Button> */}
         </div>
         <div className="flex items-center space-x-2">
           <Search className="h-4 w-4 text-muted-foreground" />
@@ -280,7 +285,7 @@ const Users = () => {
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction
-                className="bg-red-500"
+                className="bg-red-600 hover:bg-red-700"
                 onClick={handleDelete}
                 disabled={deleteUserLoading}
               >

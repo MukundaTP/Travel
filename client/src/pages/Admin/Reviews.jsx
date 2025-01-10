@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -43,7 +43,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { MoreHorizontal, Search, Star, Loader2 } from "lucide-react";
+import {
+  MoreHorizontal,
+  Search,
+  Star,
+  Loader2,
+  MessageSquare,
+} from "lucide-react";
 import {
   useDeleteReviewMutation,
   useGetAllReviewsQuery,
@@ -52,6 +58,10 @@ import {
 import { useAlert } from "react-alert";
 
 const Reviews = () => {
+  // Scroll to top when the component is mounted (when the page loads)
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
   const [searchTerm, setSearchTerm] = useState("");
   const [reviewToDelete, setReviewToDelete] = useState(null);
   const [reviewToEdit, setReviewToEdit] = useState(null);
@@ -167,7 +177,7 @@ const Reviews = () => {
   }
 
   return (
-    <Card className="max-w-7xl mx-auto">
+    <Card className="max-w-7xl mx-auto mt-16">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
@@ -188,78 +198,98 @@ const Reviews = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>User</TableHead>
-              <TableHead>Rating</TableHead>
-              <TableHead>Review</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead className="w-12">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredReviews?.map((review) => (
-              <TableRow key={review?._id}>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <img
-                      src={review?.avatar?.url}
-                      alt={review?.name}
-                      className="h-8 w-8 rounded-full object-cover"
-                    />
-                    <div>
-                      <p className="font-medium">{review?.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {review?.email}
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50">
+                <TableHead>User</TableHead>
+                <TableHead>Rating</TableHead>
+                <TableHead>Review</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead className="w-12">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredReviews?.length > 0 ? (
+                filteredReviews.map((review) => (
+                  <TableRow key={review?._id}>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={review?.avatar?.url}
+                          alt={review?.name}
+                          className="h-8 w-8 rounded-full object-cover"
+                        />
+                        <div>
+                          <p className="font-medium">{review?.name}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {review?.email}
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1">
+                        {renderRating(review?.rating)}
+                      </div>
+                    </TableCell>
+                    <TableCell className="max-w-md">
+                      <p className="truncate">{review?.message}</p>
+                    </TableCell>
+                    <TableCell>
+                      {new Date(review?.createdAt).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem
+                            onSelect={(e) => {
+                              e.preventDefault();
+                              handleEditClick(review);
+                            }}
+                          >
+                            Edit Review
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="text-destructive"
+                            onSelect={(e) => {
+                              e.preventDefault();
+                              handleDeleteClick(review);
+                            }}
+                          >
+                            Delete Review
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={5} className="h-96 text-center">
+                    <div className="flex flex-col items-center justify-center">
+                      <MessageSquare className="h-12 w-12 text-gray-400 mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900">
+                        No Reviews Found
+                      </h3>
+                      <p className="mt-2 text-gray-500">
+                        {searchTerm
+                          ? "No reviews match your search criteria."
+                          : "There are no reviews yet."}
                       </p>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    {renderRating(review?.rating)}
-                  </div>
-                </TableCell>
-                <TableCell className="max-w-md">
-                  <p className="truncate">{review?.message}</p>
-                </TableCell>
-                <TableCell>
-                  {new Date(review?.createdAt).toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem
-                        onSelect={(e) => {
-                          e.preventDefault();
-                          handleEditClick(review);
-                        }}
-                      >
-                        Edit Review
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="text-destructive"
-                        onSelect={(e) => {
-                          e.preventDefault();
-                          handleDeleteClick(review);
-                        }}
-                      >
-                        Delete Review
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
 
         {/* Delete Dialog */}
         <AlertDialog
@@ -281,7 +311,7 @@ const Reviews = () => {
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction
-                className="bg-red-500 "
+                className="bg-red-500 hover:bg-red-600"
                 onClick={handleDelete}
                 disabled={deleteReviewLoading}
               >

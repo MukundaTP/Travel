@@ -80,11 +80,6 @@ export const SidebarDemo = () => {
       icon: UserCircle,
       href: "/profile",
     },
-    {
-      label: "Settings",
-      icon: Settings,
-      href: "/settings",
-    },
   ];
 
   return (

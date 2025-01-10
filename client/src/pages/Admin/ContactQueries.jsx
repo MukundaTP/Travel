@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -60,6 +60,10 @@ import {
 import { useAlert } from "react-alert";
 
 const ContactQueries = () => {
+  // Scroll to top when the component is mounted (when the page loads)
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
   const [searchTerm, setSearchTerm] = useState("");
   const [queryToDelete, setQueryToDelete] = useState(null);
   const [selectedQuery, setSelectedQuery] = useState(null);
@@ -131,7 +135,7 @@ const ContactQueries = () => {
   }
 
   return (
-    <div className="h-full bg-gray-50/50">
+    <div className="h-full bg-gray-50/50 mt-20">
       {/* <div className="bg-gray-700 text-white">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <h1 className="text-4xl font-bold tracking-tight mb-4">
@@ -360,8 +364,8 @@ const ContactQueries = () => {
               contact query from our records.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className={"flex gap-2 sm:justify-end"}>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogFooter className="flex gap-2 sm:justify-end">
+            <AlertDialogCancel className="mt-0">Cancel</AlertDialogCancel>
             <AlertDialogAction
               className="bg-red-600 hover:bg-red-700"
               onClick={handleDelete}

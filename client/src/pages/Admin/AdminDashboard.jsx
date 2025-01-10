@@ -10,6 +10,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { SidebarDemo } from "@/components/SideBar";
+import { useEffect } from "react";
 
 const StatsCard = ({ icon: Icon, label, value, trend }) => (
   <motion.div
@@ -126,6 +127,10 @@ const ChartPlaceholder = () => (
 );
 
 const AdminDashboard = () => {
+  // Scroll to top when the component is mounted (when the page loads)
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
   const stats = [
     { icon: TrendingUp, label: "Total Bookings", value: "1,234", trend: 12 },
     { icon: Users, label: "Total Users", value: "892", trend: 8.2 },

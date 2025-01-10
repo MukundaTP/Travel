@@ -7,7 +7,7 @@ const AdminLayout = () => {
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="flex h-screen bg-gray-50 mt-24">
+    <div className="flex h-screen bg-gray-50 mt-20">
       <SidebarDemo open={open} setOpen={setOpen} />
       <div className="flex-1 p-8 overflow-y-auto">
         <Outlet /> {/* This will render the child routes */}
