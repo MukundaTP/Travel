@@ -9,6 +9,7 @@ import {
   Car,
   LogOut,
   User as UserIcon,
+  LayoutDashboard,
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { LogoutUser } from "../../Redux/UserSlice";
@@ -132,7 +133,7 @@ const Navbar = () => {
   );
 
   const UserMenu = () => (
-    <DropdownMenu>
+    <DropdownMenu className="">
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
@@ -145,10 +146,14 @@ const Navbar = () => {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent className="mt-4" align="end">
         <DropdownMenuItem onClick={() => navigate("/profile")}>
           <UserIcon className="mr-2 h-4 w-4" />
           Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+          <LayoutDashboard className="mr-2 h-4 w-4" />
+          Dashboard
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />

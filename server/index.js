@@ -16,7 +16,8 @@ require("dotenv").config();
 // const Enrollment = require("./routes/Enrollment");
 const UserRoute = require("./Routes/UserRoute");
 const ReviewsRoute = require("./Routes/ReviewsRoute");
-const ContactQueries = require("./Routes/ContactRoute");
+const ContactRoute = require("./Routes/ContactRoute");
+const AdminRoute = require("./Routes/AdminRoute");
 // const AdminRoute = require("./routes/adminRoutes");W
 // const PaymentRoute = require("./routes/paymentRoute");
 const error = require("./middlewares/error");
@@ -42,7 +43,8 @@ app.use(cors(corsOptions));
 
 app.use("/api", UserRoute);
 app.use("/api/reviews", ReviewsRoute);
-app.use("/api/contact", ContactQueries);
+app.use("/api/contact", ContactRoute);
+app.use("/api/admin", AdminRoute);
 // app.use("/api", Enrollment);
 // app.use("/api/admin", AdminRoute);
 // app.use("/api/payment", PaymentRoute);

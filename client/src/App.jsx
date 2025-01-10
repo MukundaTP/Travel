@@ -14,6 +14,11 @@ import UpdatePassword from "./pages/UpdatePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import ContactQueries from "./pages/Admin/ContactQueries";
+import Reviews from "./pages/Admin/Reviews";
+import Users from "./pages/Admin/Users";
+import AdminLayout from "./pages/Admin/AdminLayout";
 // import ForgotPassword from "./pages/ForgotPassword";
 
 const App = () => {
@@ -57,6 +62,12 @@ const App = () => {
         <Route path="/update-password" element={<UpdatePassword />}></Route>
         <Route path="/reset/password/:token" element={<ResetPassword />} />{" "}
         <Route path="/profile" element={<Profile />} />{" "}
+        <Route element={<AdminLayout />}>
+          <Route path="/dashboard" element={<AdminDashboard />} />{" "}
+          <Route path="/queries" element={<ContactQueries />} />{" "}
+          <Route path="/reviews" element={<Reviews />} />{" "}
+          <Route path="/users" element={<Users />} />{" "}
+        </Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer />
