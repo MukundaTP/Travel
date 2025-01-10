@@ -1,201 +1,414 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  TrendingUp,
   Users,
   MessageSquare,
   Star,
-  Activity,
-  Wallet,
-  Bell,
+  Loader2,
+  User,
+  Mail,
+  Calendar,
+  TrendingUp,
   ChevronRight,
+  Activity,
 } from "lucide-react";
-import { SidebarDemo } from "@/components/SideBar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  useGetAllUsersQuery,
+  useGetAllReviewsQuery,
+  useGetAllContactQueriesQuery,
+} from "../../../Redux/adminAuth";
+import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
-const StatsCard = ({ icon: Icon, label, value, trend }) => (
+// Fade in animation variants
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 20 },
+};
+
+// Stagger children animation
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const StatsCard = ({ icon: Icon, label, value, trend = null, delay = 0 }) => (
   <motion.div
-    whileHover={{ scale: 1.02 }}
-    className="bg-white rounded-xl shadow-sm border p-6 transition-all duration-200 group hover:shadow-md"
+    variants={fadeIn}
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    transition={{ duration: 0.3, delay }}
+    whileHover={{ scale: 1.03, translateY: -5 }}
+    className="bg-white rounded-xl shadow-sm border p-6 transition-all duration-200 hover:shadow-lg hover:border-gray-300"
   >
     <div className="flex items-center justify-between">
       <div>
         <p className="text-sm font-medium text-gray-500">{label}</p>
-        <h3 className="text-2xl font-bold text-gray-700 mt-1">{value}</h3>
-        <p
-          className={`text-sm mt-2 font-medium ${
-            trend > 0 ? "text-gray-700" : "text-gray-500"
-          }`}
+        <motion.h3
+          className="text-2xl font-bold text-gray-700 mt-1"
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, delay: delay + 0.2 }}
         >
-          {trend > 0 ? "+" : ""}
-          {trend}% from last month
-        </p>
+          {value}
+        </motion.h3>
+        {trend !== null && (
+          <motion.p
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: delay + 0.4 }}
+            className={`text-sm mt-2 font-medium flex items-center gap-1 ${
+              trend > 0 ? "text-emerald-600" : "text-red-500"
+            }`}
+          >
+            <TrendingUp
+              className={`h-4 w-4 ${trend > 0 ? "rotate-0" : "rotate-180"}`}
+            />
+            {trend > 0 ? "+" : ""}
+            {trend}%
+          </motion.p>
+        )}
       </div>
-      <div className="p-4 rounded-xl bg-gray-50 group-hover:bg-gray-100 transition-all">
+      <motion.div
+        whileHover={{ rotate: 15 }}
+        className="p-4 rounded-xl bg-gray-50 group-hover:bg-gray-100 transition-all"
+      >
         <Icon className="h-6 w-6 text-gray-700" />
-      </div>
+      </motion.div>
     </div>
   </motion.div>
 );
 
-const RecentActivityCard = () => {
-  const activities = [
-    {
-      icon: Wallet,
-      title: "New booking received",
-      desc: "John Doe booked a trip to Paris",
-      time: "2h ago",
-    },
-    {
-      icon: Star,
-      title: "New review posted",
-      desc: "Sarah left a 5-star review",
-      time: "4h ago",
-    },
-    {
-      icon: Bell,
-      title: "Contact Query",
-      desc: "New inquiry about London tour",
-      time: "6h ago",
-    },
-  ];
+const RatingStats = ({ reviews }) => {
+  const totalRatings = reviews?.length || 0;
+  const averageRating =
+    totalRatings > 0
+      ? (
+          reviews.reduce((acc, rev) => acc + rev.rating, 0) / totalRatings
+        ).toFixed(1)
+      : 0;
+
+  const [progressValues, setProgressValues] = useState([0, 0, 0, 0, 0]);
+
+  useEffect(() => {
+    if (totalRatings > 0) {
+      const values = [5, 4, 3, 2, 1].map((rating) => {
+        const count = reviews.filter((r) => r.rating === rating).length;
+        return (count / totalRatings) * 100;
+      });
+      setProgressValues(values);
+    }
+  }, [reviews, totalRatings]);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border p-6 h-full">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold text-gray-700">Recent Activity</h2>
-        <Button>View All</Button>
-      </div>
-      <div className="space-y-4">
-        {activities.map((item, index) => (
+    <motion.div
+      variants={fadeIn}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="bg-white rounded-xl shadow-sm border p-6 hover:shadow-lg transition-all duration-300"
+    >
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-2">
           <motion.div
-            key={index}
-            whileHover={{ y: -4 }}
-            className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-all group cursor-pointer"
+            whileHover={{ rotate: 360 }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="h-10 w-10 rounded-xl bg-gray-50 group-hover:bg-gray-100 flex items-center justify-center transition-all">
-              <item.icon className="h-5 w-5 text-gray-700" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-medium text-gray-700 truncate">
-                {item.title}
-              </h3>
-              <p className="text-xs text-gray-500 group-hover:text-gray-600 mt-0.5 truncate">
-                {item.desc}
-              </p>
-            </div>
-            <span className="text-xs text-gray-500 whitespace-nowrap">
-              {item.time}
-            </span>
+            <Star className="h-5 w-5 text-yellow-500" />
           </motion.div>
-        ))}
+          <h2 className="text-lg font-semibold text-gray-700">
+            Rating Overview
+          </h2>
+        </div>
       </div>
-      <motion.button
-        whileHover={{ x: 4 }}
-        className="mt-4 w-full py-2 text-sm text-gray-500 hover:text-gray-700 flex items-center justify-center gap-1 group"
-      >
-        View all activity
-        <ChevronRight className="h-4 w-4 group-hover:text-gray-700" />
-      </motion.button>
-    </div>
+      <div className="flex items-center gap-10">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <div className="text-4xl font-bold text-gray-700">
+            {averageRating}
+          </div>
+          <div className="flex gap-1 mt-2">
+            {[...Array(5)].map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Star
+                  className={`h-5 w-5 ${
+                    i < Math.round(averageRating)
+                      ? "text-yellow-400 fill-yellow-400"
+                      : "text-gray-300"
+                  }`}
+                />
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-sm text-gray-500 mt-2">Average Rating</p>
+        </motion.div>
+        <div className="flex-1 space-y-4">
+          {[5, 4, 3, 2, 1].map((rating, index) => {
+            const count =
+              reviews?.filter((r) => r.rating === rating).length || 0;
+
+            return (
+              <motion.div
+                key={rating}
+                initial={{ x: -50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: index * 0.1 }}
+                className="grid grid-cols-[auto,1fr,auto] gap-4 items-center"
+              >
+                <div className="flex items-center gap-1 w-12">
+                  <span className="font-medium text-gray-700">{rating}</span>
+                  <Star className="h-4 w-4 text-yellow-400" />
+                </div>
+                <Progress value={progressValues[index]} className="h-2" />
+                <span className="text-sm text-gray-500 w-12">{count}</span>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </motion.div>
   );
 };
 
-const Button = ({ children, variant = "primary", ...props }) => (
-  <motion.button
-    whileHover={{ scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-      variant === "primary"
-        ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
-        : variant === "danger"
-        ? "bg-red-50 text-red-600 hover:bg-red-100"
-        : "bg-gray-50 text-gray-600 hover:bg-gray-100"
-    } focus:outline-none focus:ring-2 focus:ring-gray-200`}
-    {...props}
+const ItemCard = ({ icon: Icon, title, subtitle, date, imageUrl = null }) => (
+  <motion.div
+    variants={fadeIn}
+    whileHover={{ x: 4, backgroundColor: "rgb(249 250 251)" }}
+    className="flex items-center gap-4 p-4 rounded-lg transition-all cursor-pointer"
   >
-    {children}
-  </motion.button>
+    {imageUrl ? (
+      <motion.img
+        whileHover={{ scale: 1.1 }}
+        src={imageUrl}
+        alt={title}
+        className="h-12 w-12 rounded-full object-cover"
+      />
+    ) : (
+      <motion.div
+        whileHover={{ rotate: 15 }}
+        className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center"
+      >
+        <Icon className="h-6 w-6 text-gray-600" />
+      </motion.div>
+    )}
+    <div className="flex-1 min-w-0">
+      <h3 className="text-sm font-medium text-gray-700 truncate">{title}</h3>
+      <p className="text-xs text-gray-500 mt-0.5 truncate">{subtitle}</p>
+    </div>
+    <div className="flex items-center text-xs text-gray-500 gap-1">
+      <Calendar className="h-3 w-3" />
+      {date}
+    </div>
+    <motion.div whileHover={{ x: 3 }} className="text-gray-400">
+      <ChevronRight className="h-4 w-4" />
+    </motion.div>
+  </motion.div>
 );
 
-const ChartPlaceholder = () => (
-  <div className="h-full flex items-center justify-center text-gray-500 bg-gray-50 rounded-xl">
-    <div className="text-center">
-      <Activity className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-      <p className="text-gray-500">Chart visualization coming soon</p>
+const SectionCard = ({ title, icon: Icon, data, renderItem }) => (
+  <motion.div
+    variants={fadeIn}
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    className="bg-white rounded-xl shadow-sm border p-6 hover:shadow-lg transition-all duration-300"
+  >
+    <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center gap-2">
+        <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
+          <Icon className="h-5 w-5 text-gray-700" />
+        </motion.div>
+        <h2 className="text-lg font-semibold text-gray-700">{title}</h2>
+      </div>
+      <motion.span
+        whileHover={{ scale: 1.05 }}
+        className="text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full"
+      >
+        {data?.length || 0} entries
+      </motion.span>
     </div>
+    <motion.div
+      variants={stagger}
+      initial="initial"
+      animate="animate"
+      className="space-y-2 h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent hover:scrollbar-thumb-gray-300"
+    >
+      {data?.map(renderItem)}
+    </motion.div>
+  </motion.div>
+);
+
+const LoadingSpinner = () => (
+  <div className="flex h-screen items-center justify-center bg-gray-50">
+    <motion.div
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+    >
+      <Loader2 className="h-12 w-12 text-gray-700" />
+    </motion.div>
   </div>
 );
 
 const AdminDashboard = () => {
-  // Scroll to top when the component is mounted (when the page loads)
+  const { data: usersData, isLoading: usersLoading } = useGetAllUsersQuery(
+    undefined,
+    {
+      pollingInterval: 30000, // Poll every 30 seconds
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: false,
+      refetchOnReconnect: true,
+    }
+  );
+
+  const { data: reviewsData, isLoading: reviewsLoading } =
+    useGetAllReviewsQuery(undefined, {
+      pollingInterval: 30000,
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: false,
+      refetchOnReconnect: true,
+    });
+
+  const { data: queriesData, isLoading: queriesLoading } =
+    useGetAllContactQueriesQuery(undefined, {
+      pollingInterval: 30000,
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: false,
+      refetchOnReconnect: true,
+    });
+
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
-  }, []); // Empty dependency array ensures this runs only once when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
+
+  if (usersLoading || reviewsLoading || queriesLoading) {
+    return <LoadingSpinner />;
+  }
+
   const stats = [
-    { icon: TrendingUp, label: "Total Bookings", value: "1,234", trend: 12 },
-    { icon: Users, label: "Total Users", value: "892", trend: 8.2 },
-    { icon: MessageSquare, label: "Active Queries", value: "48", trend: -2.4 },
-    { icon: Star, label: "Average Rating", value: "4.8", trend: 1.8 },
+    {
+      icon: Users,
+      label: "Total Users",
+      value: usersData?.users?.length || 0,
+      trend: 12,
+    },
+    {
+      icon: Star,
+      label: "Total Reviews",
+      value: reviewsData?.reviews?.length || 0,
+      trend: 8,
+    },
+    {
+      icon: MessageSquare,
+      label: "Contact Queries",
+      value: queriesData?.queries?.length || 0,
+      trend: -2,
+    },
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      <div className="flex-1 p-8 overflow-y-auto">
-        <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gray-50">
+      <div className="p-8">
+        <motion.div
+          className="max-w-7xl mx-auto space-y-8"
+          variants={stagger}
+          initial="initial"
+          animate="animate"
+        >
           {/* Header */}
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">
+          <motion.div
+            variants={fadeIn}
+            className="bg-white p-8 rounded-2xl shadow-sm border"
+          >
+            <motion.h1
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              className="text-3xl font-bold text-gray-800"
+            >
               Dashboard Overview
-            </h1>
-            <p className="text-gray-500 mt-1">Welcome to your dashboard</p>
-          </div>
+            </motion.h1>
+            <motion.p
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-gray-500 mt-2"
+            >
+              Welcome back! Here's what's happening today.
+            </motion.p>
+          </motion.div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {stats.map((stat, index) => (
-              <StatsCard key={index} {...stat} />
+              <StatsCard key={index} {...stat} delay={index * 0.1} />
             ))}
           </div>
 
-          {/* Charts and Activity Section */}
+          {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-gray-700">
-                  Booking Analytics
-                </h2>
-                <div className="flex gap-2">
-                  <Button variant="secondary">Weekly</Button>
-                  <Button variant="secondary">Monthly</Button>
-                </div>
-              </div>
-              <ChartPlaceholder />
-            </div>
-            <RecentActivityCard />
-          </div>
+            <RatingStats reviews={reviewsData?.reviews} />
 
-          {/* Additional Info Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">
-                Popular Destinations
-              </h3>
-              {/* Add content for popular destinations */}
-            </div>
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">
-                Latest Reviews
-              </h3>
-              {/* Add content for latest reviews */}
-            </div>
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">
-                Pending Queries
-              </h3>
-              {/* Add content for pending queries */}
-            </div>
+            <SectionCard
+              title="Latest Users"
+              icon={Users}
+              data={usersData?.users}
+              renderItem={(user) => (
+                <ItemCard
+                  key={user._id}
+                  icon={User}
+                  title={user.name}
+                  subtitle={user.email}
+                  date={new Date(user.createdAt).toLocaleDateString()}
+                  imageUrl={user.avatar.url}
+                />
+              )}
+            />
+
+            <SectionCard
+              title="Latest Reviews"
+              icon={Star}
+              data={reviewsData?.reviews}
+              renderItem={(review) => (
+                <ItemCard
+                  key={review._id}
+                  icon={Star}
+                  imageUrl={review.avatar.url}
+                  title={review.name}
+                  subtitle={review.message}
+                  date={new Date(review.createdAt).toLocaleDateString()}
+                />
+              )}
+            />
+
+            <SectionCard
+              title="Latest Queries"
+              icon={MessageSquare}
+              data={queriesData?.queries}
+              renderItem={(query) => (
+                <ItemCard
+                  key={query._id}
+                  icon={MessageSquare}
+                  title={`${query.firstName} ${query.lastName}`}
+                  subtitle={query.message}
+                  date={new Date(query.createdAt).toLocaleDateString()}
+                />
+              )}
+            />
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

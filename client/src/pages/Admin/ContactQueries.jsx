@@ -280,68 +280,70 @@ const ContactQueries = () => {
           </DialogHeader>
 
           {selectedQuery && (
-            <div className="space-y-6 py-4">
-              {/* Personal Information */}
-              <div className="space-y-4">
-                <h4 className="text-sm font-medium text-gray-500">
-                  Personal Information
-                </h4>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-500">Full Name</p>
-                    <p className="text-sm font-medium">
-                      {selectedQuery.firstName} {selectedQuery.lastName}
-                    </p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-500">Submission Date</p>
-                    <p className="text-sm font-medium">
-                      {new Date(selectedQuery.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Contact Information */}
-              <div className="space-y-4">
-                <h4 className="text-sm font-medium text-gray-500">
-                  Contact Information
-                </h4>
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-gray-400" />
+            <div className="max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent hover:scrollbar-thumb-gray-300">
+              <div className="space-y-6 py-4">
+                {/* Personal Information */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-gray-500">
+                    Personal Information
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <p className="text-sm text-gray-500">Full Name</p>
                       <p className="text-sm font-medium">
-                        {selectedQuery.email}
+                        {selectedQuery.firstName} {selectedQuery.lastName}
+                      </p>
+                    </div>
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <p className="text-sm text-gray-500">Submission Date</p>
+                      <p className="text-sm font-medium">
+                        {new Date(selectedQuery.createdAt).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-gray-400" />
-                      <p className="text-sm font-medium">
-                        {selectedQuery.phone}
-                      </p>
-                      {selectedQuery.altPhone && (
-                        <>
-                          <span className="text-gray-400">|</span>
-                          <p className="text-sm font-medium">
-                            Alt: {selectedQuery.altPhone}
-                          </p>
-                        </>
-                      )}
+                </div>
+
+                {/* Contact Information */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-gray-500">
+                    Contact Information
+                  </h4>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <Mail className="h-4 w-4 text-gray-400" />
+                        <p className="text-sm font-medium">
+                          {selectedQuery.email}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <Phone className="h-4 w-4 text-gray-400" />
+                        <p className="text-sm font-medium">
+                          {selectedQuery.phone}
+                        </p>
+                        {selectedQuery.altPhone && (
+                          <>
+                            <span className="text-gray-400">|</span>
+                            <p className="text-sm font-medium">
+                              Alt: {selectedQuery.altPhone}
+                            </p>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Message */}
-              <div className="space-y-4">
-                <h4 className="text-sm font-medium text-gray-500">Message</h4>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                    {selectedQuery.message}
-                  </p>
+                {/* Message */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-gray-500">Message</h4>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
+                      {selectedQuery.message}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
