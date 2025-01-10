@@ -19,6 +19,7 @@ import {
 } from "../../../Redux/adminAuth";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import MetaData from "@/components/layouts/MetaData";
 
 // Fade in animation variants
 const fadeIn = {
@@ -196,6 +197,7 @@ const ItemCard = ({ icon: Icon, title, subtitle, date, imageUrl = null }) => (
         src={imageUrl}
         alt={title}
         className="h-12 w-12 rounded-full object-cover"
+        loading="lazy"
       />
     ) : (
       <motion.div
@@ -320,97 +322,100 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="p-8">
-        <motion.div
-          className="max-w-7xl mx-auto space-y-8"
-          variants={stagger}
-          initial="initial"
-          animate="animate"
-        >
-          {/* Header */}
+    <>
+      <MetaData title={"Admin Dashboard"} />
+      <div className="min-h-screen bg-gray-50">
+        <div className="p-8">
           <motion.div
-            variants={fadeIn}
-            className="bg-white p-8 rounded-2xl shadow-sm border"
+            className="max-w-7xl mx-auto space-y-8"
+            variants={stagger}
+            initial="initial"
+            animate="animate"
           >
-            <motion.h1
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              className="text-3xl font-bold text-gray-800"
+            {/* Header */}
+            <motion.div
+              variants={fadeIn}
+              className="bg-white p-8 rounded-2xl shadow-sm border"
             >
-              Dashboard Overview
-            </motion.h1>
-            <motion.p
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-gray-500 mt-2"
-            >
-              Welcome back! Here's what's happening today.
-            </motion.p>
+              <motion.h1
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                className="text-3xl font-bold text-gray-800"
+              >
+                Dashboard Overview
+              </motion.h1>
+              <motion.p
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-gray-500 mt-2"
+              >
+                Welcome back! Here's what's happening today.
+              </motion.p>
+            </motion.div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {stats.map((stat, index) => (
+                <StatsCard key={index} {...stat} delay={index * 0.1} />
+              ))}
+            </div>
+
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <RatingStats reviews={reviewsData?.reviews} />
+
+              <SectionCard
+                title="Latest Users"
+                icon={Users}
+                data={usersData?.users}
+                renderItem={(user) => (
+                  <ItemCard
+                    key={user._id}
+                    icon={User}
+                    title={user.name}
+                    subtitle={user.email}
+                    date={new Date(user.createdAt).toLocaleDateString()}
+                    imageUrl={user.avatar.url}
+                  />
+                )}
+              />
+
+              <SectionCard
+                title="Latest Reviews"
+                icon={Star}
+                data={reviewsData?.reviews}
+                renderItem={(review) => (
+                  <ItemCard
+                    key={review._id}
+                    icon={Star}
+                    imageUrl={review.avatar.url}
+                    title={review.name}
+                    subtitle={review.message}
+                    date={new Date(review.createdAt).toLocaleDateString()}
+                  />
+                )}
+              />
+
+              <SectionCard
+                title="Latest Queries"
+                icon={MessageSquare}
+                data={queriesData?.queries}
+                renderItem={(query) => (
+                  <ItemCard
+                    key={query._id}
+                    icon={MessageSquare}
+                    title={`${query.firstName} ${query.lastName}`}
+                    subtitle={query.message}
+                    date={new Date(query.createdAt).toLocaleDateString()}
+                  />
+                )}
+              />
+            </div>
           </motion.div>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {stats.map((stat, index) => (
-              <StatsCard key={index} {...stat} delay={index * 0.1} />
-            ))}
-          </div>
-
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <RatingStats reviews={reviewsData?.reviews} />
-
-            <SectionCard
-              title="Latest Users"
-              icon={Users}
-              data={usersData?.users}
-              renderItem={(user) => (
-                <ItemCard
-                  key={user._id}
-                  icon={User}
-                  title={user.name}
-                  subtitle={user.email}
-                  date={new Date(user.createdAt).toLocaleDateString()}
-                  imageUrl={user.avatar.url}
-                />
-              )}
-            />
-
-            <SectionCard
-              title="Latest Reviews"
-              icon={Star}
-              data={reviewsData?.reviews}
-              renderItem={(review) => (
-                <ItemCard
-                  key={review._id}
-                  icon={Star}
-                  imageUrl={review.avatar.url}
-                  title={review.name}
-                  subtitle={review.message}
-                  date={new Date(review.createdAt).toLocaleDateString()}
-                />
-              )}
-            />
-
-            <SectionCard
-              title="Latest Queries"
-              icon={MessageSquare}
-              data={queriesData?.queries}
-              renderItem={(query) => (
-                <ItemCard
-                  key={query._id}
-                  icon={MessageSquare}
-                  title={`${query.firstName} ${query.lastName}`}
-                  subtitle={query.message}
-                  date={new Date(query.createdAt).toLocaleDateString()}
-                />
-              )}
-            />
-          </div>
-        </motion.div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

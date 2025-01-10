@@ -56,6 +56,7 @@ import {
   useUpdateReviewMutation,
 } from "../../../Redux/adminAuth";
 import { useAlert } from "react-alert";
+import MetaData from "@/components/layouts/MetaData";
 
 const Reviews = () => {
   // Scroll to top when the component is mounted (when the page loads)
@@ -206,6 +207,7 @@ const Reviews = () => {
               <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                 <img
                   src={review.avatar.url}
+                  loading="lazy"
                   alt={review.name}
                   className="h-16 w-16 rounded-full object-cover border-4 border-white shadow-sm"
                 />
@@ -282,222 +284,229 @@ const Reviews = () => {
   };
 
   return (
-    <Card className="max-w-7xl mx-auto mt-16">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>Reviews</CardTitle>
-            <CardDescription>
-              Manage customer reviews and feedback.
-            </CardDescription>
+    <>
+      <MetaData title={"Admin-Reviews"} />
+      <Card className="max-w-7xl mx-auto mt-16">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Reviews</CardTitle>
+              <CardDescription>
+                Manage customer reviews and feedback.
+              </CardDescription>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Search className="h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search reviews..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="max-w-sm"
-          />
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-50">
-                <TableHead>User</TableHead>
-                <TableHead>Rating</TableHead>
-                <TableHead>Review</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead className="w-12">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredReviews?.length > 0 ? (
-                filteredReviews.map((review) => (
-                  <TableRow
-                    key={review?._id}
-                    className="cursor-pointer hover:bg-gray-50 transition-colors"
-                    onClick={() => handleViewClick(review)}
-                  >
-                    {" "}
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <img
-                          src={review?.avatar?.url}
-                          alt={review?.name}
-                          className="h-8 w-8 rounded-full object-cover"
-                        />
-                        <div>
-                          <p className="font-medium">{review?.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {review?.email}
-                          </p>
+          <div className="flex items-center space-x-2">
+            <Search className="h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search reviews..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="max-w-sm"
+            />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-gray-50">
+                  <TableHead>User</TableHead>
+                  <TableHead>Rating</TableHead>
+                  <TableHead>Review</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead className="w-12">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredReviews?.length > 0 ? (
+                  filteredReviews.map((review) => (
+                    <TableRow
+                      key={review?._id}
+                      className="cursor-pointer hover:bg-gray-50 transition-colors"
+                      onClick={() => handleViewClick(review)}
+                    >
+                      {" "}
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={review?.avatar?.url}
+                            alt={review?.name}
+                            className="h-8 w-8 rounded-full object-cover"
+                            loading="lazy"
+                          />
+                          <div>
+                            <p className="font-medium">{review?.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {review?.email}
+                            </p>
+                          </div>
                         </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1">
+                          {renderRating(review?.rating)}
+                        </div>
+                      </TableCell>
+                      <TableCell className="max-w-md">
+                        <p className="truncate">{review?.message}</p>
+                      </TableCell>
+                      <TableCell>
+                        {new Date(review?.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              className="h-8 w-8 p-0"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                              onSelect={(e) => {
+                                e.preventDefault();
+                                handleEditClick(review);
+                              }}
+                            >
+                              Edit Review
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              className="text-destructive"
+                              onSelect={(e) => {
+                                e.preventDefault();
+                                handleDeleteClick(review);
+                              }}
+                            >
+                              Delete Review
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} className="h-96 text-center">
+                      <div className="flex flex-col items-center justify-center">
+                        <MessageSquare className="h-12 w-12 text-gray-400 mb-4" />
+                        <h3 className="text-lg font-medium text-gray-900">
+                          No Reviews Found
+                        </h3>
+                        <p className="mt-2 text-gray-500">
+                          {searchTerm
+                            ? "No reviews match your search criteria."
+                            : "There are no reviews yet."}
+                        </p>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        {renderRating(review?.rating)}
-                      </div>
-                    </TableCell>
-                    <TableCell className="max-w-md">
-                      <p className="truncate">{review?.message}</p>
-                    </TableCell>
-                    <TableCell>
-                      {new Date(review?.createdAt).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            className="h-8 w-8 p-0"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem
-                            onSelect={(e) => {
-                              e.preventDefault();
-                              handleEditClick(review);
-                            }}
-                          >
-                            Edit Review
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="text-destructive"
-                            onSelect={(e) => {
-                              e.preventDefault();
-                              handleDeleteClick(review);
-                            }}
-                          >
-                            Delete Review
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="h-96 text-center">
-                    <div className="flex flex-col items-center justify-center">
-                      <MessageSquare className="h-12 w-12 text-gray-400 mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900">
-                        No Reviews Found
-                      </h3>
-                      <p className="mt-2 text-gray-500">
-                        {searchTerm
-                          ? "No reviews match your search criteria."
-                          : "There are no reviews yet."}
-                      </p>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* Delete Dialog */}
-        <AlertDialog
-          open={isDeleteDialogOpen}
-          onOpenChange={setIsDeleteDialogOpen}
-        >
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                Are you sure you want to delete this review?
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete the
-                review from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter className="flex gap-2 sm:justify-end">
-              <AlertDialogCancel className="mt-0" onClick={handleCancelDelete}>
-                Cancel
-              </AlertDialogCancel>
-              <AlertDialogAction
-                className="bg-red-500 hover:bg-red-600"
-                onClick={handleDelete}
-                disabled={deleteReviewLoading}
-              >
-                {deleteReviewLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  "Delete"
                 )}
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+              </TableBody>
+            </Table>
+          </div>
 
-        {/* Edit Dialog */}
-        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Edit Review</DialogTitle>
-              <DialogDescription>
-                Update the review message. Other fields cannot be modified.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label>User</Label>
-                <Input
-                  value={reviewToEdit?.name || ""}
-                  disabled
-                  className="bg-muted"
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label>Rating</Label>
-                <div className="flex items-center gap-1 p-2 bg-muted rounded-md">
-                  {reviewToEdit && renderRating(reviewToEdit.rating)}
+          {/* Delete Dialog */}
+          <AlertDialog
+            open={isDeleteDialogOpen}
+            onOpenChange={setIsDeleteDialogOpen}
+          >
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Are you sure you want to delete this review?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete the
+                  review from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="flex gap-2 sm:justify-end">
+                <AlertDialogCancel
+                  className="mt-0"
+                  onClick={handleCancelDelete}
+                >
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  className="bg-red-500 hover:bg-red-600"
+                  onClick={handleDelete}
+                  disabled={deleteReviewLoading}
+                >
+                  {deleteReviewLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    "Delete"
+                  )}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          {/* Edit Dialog */}
+          <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit Review</DialogTitle>
+                <DialogDescription>
+                  Update the review message. Other fields cannot be modified.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
+                  <Label>User</Label>
+                  <Input
+                    value={reviewToEdit?.name || ""}
+                    disabled
+                    className="bg-muted"
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label>Rating</Label>
+                  <div className="flex items-center gap-1 p-2 bg-muted rounded-md">
+                    {reviewToEdit && renderRating(reviewToEdit.rating)}
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="message">Review Message</Label>
+                  <Textarea
+                    id="message"
+                    value={editedMessage}
+                    onChange={(e) => setEditedMessage(e.target.value)}
+                    rows={4}
+                  />
                 </div>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="message">Review Message</Label>
-                <Textarea
-                  id="message"
-                  value={editedMessage}
-                  onChange={(e) => setEditedMessage(e.target.value)}
-                  rows={4}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={handleCancelEdit}>
-                Cancel
-              </Button>
-              <Button
-                onClick={handleUpdate}
-                disabled={updateReviewLoading || !editedMessage.trim()}
-              >
-                {updateReviewLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  "Save Changes"
-                )}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </CardContent>
+              <DialogFooter>
+                <Button variant="outline" onClick={handleCancelEdit}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleUpdate}
+                  disabled={updateReviewLoading || !editedMessage.trim()}
+                >
+                  {updateReviewLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    "Save Changes"
+                  )}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </CardContent>
 
-      <ViewReviewDialog
-        review={selectedReview}
-        open={isViewDialogOpen}
-        onOpenChange={setIsViewDialogOpen}
-      />
-    </Card>
+        <ViewReviewDialog
+          review={selectedReview}
+          open={isViewDialogOpen}
+          onOpenChange={setIsViewDialogOpen}
+        />
+      </Card>
+    </>
   );
 };
 

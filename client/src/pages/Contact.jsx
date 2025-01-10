@@ -10,6 +10,7 @@ import ContactInfo from "@/components/ContactComponents/ContactInfo";
 import OfficeMapLocation from "@/components/ContactComponents/OfficeMapLocation";
 import ContactForm from "@/components/ContactComponents/ContactForm";
 import OfficeLocation from "@/components/ContactComponents/OfficeLocation";
+import MetaData from "@/components/layouts/MetaData";
 
 const ContactPage = () => {
   useEffect(() => {
@@ -53,34 +54,37 @@ const ContactPage = () => {
     }
   };
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <ContactHero />
-      <ContactInfo />
+    <>
+      <MetaData title={"Contact Us"} />
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        <ContactHero />
+        <ContactInfo />
 
-      {/* Contact Form Section */}
-      <motion.section
-        className="py-20 bg-gradient-to-b from-gray-900 via-gray-900 to-black"
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <ContactForm
-              form={form}
-              isLoading={isLoading}
-              onSubmit={onSubmit}
-            />
+        {/* Contact Form Section */}
+        <motion.section
+          className="py-20 bg-gradient-to-b from-gray-900 via-gray-900 to-black"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <ContactForm
+                form={form}
+                isLoading={isLoading}
+                onSubmit={onSubmit}
+              />
 
-            <OfficeMapLocation />
+              <OfficeMapLocation />
+            </div>
           </div>
-        </div>
-      </motion.section>
+        </motion.section>
 
-      {/* Office Location Section */}
+        {/* Office Location Section */}
 
-      <OfficeLocation />
-    </div>
+        <OfficeLocation />
+      </div>
+    </>
   );
 };
 

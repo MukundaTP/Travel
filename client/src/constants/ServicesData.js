@@ -115,7 +115,6 @@ export const specialPackages = [
       "24/7 concierge service",
       "Corporate billing options",
     ],
-    price: "Starting from $299/day",
   },
   {
     title: "Family Adventure Package",
@@ -128,7 +127,6 @@ export const specialPackages = [
       "Family meal options",
       "Educational stop-overs",
     ],
-    price: "Starting from $199/day",
   },
   {
     title: "Luxury Weekend Getaway",
@@ -141,7 +139,6 @@ export const specialPackages = [
       "Scenic route planning",
       "Hotel booking assistance",
     ],
-    price: "Starting from $399/day",
   },
   {
     title: "Special Events Package",
@@ -154,7 +151,6 @@ export const specialPackages = [
       "Custom routes",
       "Group coordination",
     ],
-    price: "Starting from $499/day",
   },
 ];
 

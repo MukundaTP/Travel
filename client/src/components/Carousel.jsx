@@ -139,6 +139,7 @@ const CarouselComponent = () => {
               src={carouselData[currentIndex].image}
               alt={`Slide ${currentIndex + 1}`}
               className="w-full h-full object-cover"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent" />
           </div>

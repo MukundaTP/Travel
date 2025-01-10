@@ -9,6 +9,7 @@ import {
   vehicleExamples,
 } from "@/constants/ServicesData";
 import ServicesHero from "@/components/ServicesComponents/ServicesHero";
+import MetaData from "@/components/layouts/MetaData";
 
 const Services = () => {
   // Scroll to top when the component is mounted (when the page loads)
@@ -19,17 +20,20 @@ const Services = () => {
   const [activeTab, setActiveTab] = useState("vehicles");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <ServicesHero />
-      <TabSection
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        vehicleExamples={vehicleExamples}
-        specialPackages={specialPackages}
-        addOnServices={addOnServices}
-      />
-      <CallToAction />
-    </div>
+    <>
+      <MetaData title={"Services"} />
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+        <ServicesHero />
+        <TabSection
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          vehicleExamples={vehicleExamples}
+          specialPackages={specialPackages}
+          addOnServices={addOnServices}
+        />
+        <CallToAction />
+      </div>
+    </>
   );
 };
 

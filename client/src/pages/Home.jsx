@@ -2,6 +2,7 @@ import { AnimatedTestimonialsDemo } from "@/components/HomeComponents/AnimatedTe
 import CarouselComponent from "@/components/Carousel";
 import HighlightSection from "@/components/HighLightSection";
 import { useEffect } from "react";
+import MetaData from "@/components/layouts/MetaData";
 
 const Home = () => {
   // Scroll to top when the component is mounted (when the page loads)
@@ -10,11 +11,14 @@ const Home = () => {
   }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   return (
-    <div>
-      <CarouselComponent />
-      <HighlightSection />
-      <AnimatedTestimonialsDemo />
-    </div>
+    <>
+      <MetaData title={"Chaitanya Tours And Travels"} />
+      <div>
+        <CarouselComponent />
+        <HighlightSection />
+        <AnimatedTestimonialsDemo />
+      </div>
+    </>
   );
 };
 

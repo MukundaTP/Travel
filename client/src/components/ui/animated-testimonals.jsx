@@ -247,6 +247,7 @@ export const AnimatedTestimonials = ({
                       src={testimonial?.src}
                       alt={testimonial?.name}
                       className="h-full w-[80%] rounded-3xl"
+                      loading="lazy"
                     />
                   </motion.div>
                 ))}
@@ -412,6 +413,7 @@ export const AnimatedTestimonials = ({
                                 src={previewUrl}
                                 alt="Preview"
                                 className="w-full h-full object-cover rounded-lg"
+                                loading="lazy"
                               />
                             </div>
                           )}

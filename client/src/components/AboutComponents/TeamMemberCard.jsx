@@ -17,6 +17,7 @@ const TeamMemberCard = ({ member, index, isHovering, setIsHovering }) => (
             src="/api/placeholder/400/400"
             alt={member.name}
             className="w-full h-full object-cover rounded-2xl shadow-xl"
+            loading="lazy"
           />
           <div
             className={`absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent rounded-2xl transition-opacity duration-300 ${
