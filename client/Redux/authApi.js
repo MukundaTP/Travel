@@ -71,6 +71,14 @@ export const myApi = createApi({
         },
       }),
     }),
+    udpateProfilePic: builder.mutation({
+      query: (data) => ({
+        url: "updateProfilePicture",
+        method: "PATCH",
+        body: data,
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
@@ -81,4 +89,5 @@ export const {
   useUpdatePasswordMutation,
   useResetPasswordMailMutation,
   useResetPasswordMutation,
+  useUdpateProfilePicMutation,
 } = myApi;

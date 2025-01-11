@@ -176,3 +176,37 @@ exports.resetPassword = CatchAsyncErrors(async (req, res, next) => {
   await user.save();
   jwtToken("Successfully updated password", 200, user, res);
 });
+
+exports.updateProfilePic = CatchAsyncErrors(async (req, res, next) => {
+  const { image, id } = req.body;
+
+  const user = await User.findById(id);
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  const avatarId = user?.avatar?.public_id;
+
+  await cloudinary.v2.uploader.destroy(avatarId);
+
+  const myCloud = await cloudinary.v2.uploader.upload(image, {
+    folder: "travel/users",
+    width: 700,
+    height: 700,
+    crop: "scale",
+  });
+
+  user.avatar = {
+    public_id: myCloud?.public_id,
+    url: myCloud?.secure_url,
+  };
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Profile pic updated successfully",
+    user,
+  });
+});

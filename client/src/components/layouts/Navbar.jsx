@@ -137,7 +137,11 @@ const Navbar = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user?.avatar?.url} alt={user?.name} />
+            <AvatarImage
+              loading={"lazy"}
+              src={user?.avatar?.url}
+              alt={user?.name}
+            />
             <AvatarFallback>
               {user?.name?.charAt(0)?.toUpperCase() || (
                 <UserIcon className="h-4 w-4" />
@@ -337,6 +341,7 @@ const Navbar = () => {
                           <AvatarImage
                             src={user?.avatar?.url}
                             alt={user?.name}
+                            loading={"lazy"}
                           />
                           <AvatarFallback>
                             {user?.name?.charAt(0)?.toUpperCase() || (

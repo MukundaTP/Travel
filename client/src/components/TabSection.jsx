@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Vehicles from "./ServicesComponents/Vehicles";
-import { containerVariants } from "@/constants/Variants";
 import AddOns from "./ServicesComponents/AddOns";
 
 const TabSection = ({
@@ -8,7 +7,6 @@ const TabSection = ({
   setActiveTab,
   vehicleExamples,
   specialPackages,
-  addOnServices,
 }) => {
   const renderIcon = (IconComponent) => (
     <IconComponent className="w-12 h-12 mb-4 text-gray-700" />

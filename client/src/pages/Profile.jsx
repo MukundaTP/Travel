@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -23,25 +21,79 @@ import {
   LogOut,
 } from "lucide-react";
 import { format } from "date-fns";
-import { LogoutUser } from "../../Redux/UserSlice";
-import { useLogoutMutation } from "../../Redux/authApi";
+import { LogoutUser, setUser } from "../../Redux/UserSlice";
+import {
+  useLogoutMutation,
+  useUdpateProfilePicMutation,
+} from "../../Redux/authApi";
 import { useAlert } from "react-alert";
 import MetaData from "@/components/layouts/MetaData";
+import UpdateProfilePicModal from "@/components/AdminDashboardComponents/UpdateProfilePicture";
 
 const Profile = () => {
-  // Scroll to top when the component is mounted (when the page loads)
-  useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
-  }, []); // Empty dependency array ensures this runs only once when the component mounts
+  // States
+  const [isUpdateProfilePicModalOpen, setIsUpdateProfilePicModalOpen] =
+    useState(false);
+  const [isImageHovered, setIsImageHovered] = useState(false);
+  const [userImage, setUserImage] = useState(null);
+
+  // Hooks
   const navigate = useNavigate();
   const { user } = useSelector((state) => state?.user);
-  const [isImageHovered, setIsImageHovered] = useState(false);
   const [logout] = useLogoutMutation();
+  const [updateProfilePicture, { isLoading: profilePicLoading }] =
+    useUdpateProfilePicMutation();
   const dispatch = useDispatch();
   const alert = useAlert();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const formatDate = (dateString) => {
     return format(new Date(dateString), "MMMM dd, yyyy");
+  };
+
+  // Image update handlers
+  const handleImageUpdateSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await updateProfilePicture({
+        image: userImage,
+        id: user?._id,
+      }).unwrap();
+
+      alert.success(data?.message);
+      setUserImage(null);
+      handleProfilePicUpdateModalClose();
+      dispatch(setUser(data?.user));
+    } catch (e) {
+      alert.error(e?.data?.err);
+    }
+  };
+
+  const handleProfilePicUpdateModalClose = () => {
+    setIsUpdateProfilePicModalOpen(false);
+    setUserImage(null);
+  };
+
+  const handleProfilePicUpdateModalOpen = () => {
+    setIsUpdateProfilePicModalOpen(true);
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setUserImage(reader.result);
+      }
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleLogout = async () => {
@@ -52,7 +104,6 @@ const Profile = () => {
       navigate("/login");
     } catch (e) {
       alert.error(e?.data?.err);
-      return;
     }
   };
 
@@ -62,7 +113,6 @@ const Profile = () => {
       <div className="h-screen overflow-y-auto bg-gray-50 py-6 mt-20">
         <div className="max-w-4xl mx-auto px-4 h-full flex items-start">
           <Card className="w-full mb-6">
-            {/* Profile Header - Reduced vertical spacing */}
             <CardHeader className="text-center py-4">
               <div className="flex justify-center mb-4">
                 <div
@@ -75,6 +125,7 @@ const Profile = () => {
                       src={user?.avatar?.url}
                       alt={user?.name}
                       className="object-cover"
+                      loading={"lazy"}
                     />
                     <AvatarFallback className="text-xl bg-blue-500 text-white">
                       {user?.name?.charAt(0)?.toUpperCase()}
@@ -83,7 +134,7 @@ const Profile = () => {
                   {isImageHovered && (
                     <div
                       className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer"
-                      onClick={() => navigate("/update-profile")}
+                      onClick={handleProfilePicUpdateModalOpen}
                     >
                       <Camera className="w-6 h-6 text-white" />
                     </div>
@@ -99,10 +150,9 @@ const Profile = () => {
               </CardDescription>
             </CardHeader>
 
-            {/* Content - Optimized spacing */}
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* User Details - Left Column */}
+                {/* Account Details Section */}
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-sm font-medium text-gray-500 mb-2">
@@ -139,7 +189,6 @@ const Profile = () => {
                             <p className="text-gray-600">
                               {user?.isAdmin ? "Admin" : "User"}
                             </p>
-                            <div className="flex items-center"></div>
                           </div>
                         </div>
                       </div>
@@ -156,7 +205,7 @@ const Profile = () => {
                   </div>
                 </div>
 
-                {/* Quick Actions - Right Column */}
+                {/* Quick Actions Section */}
                 <div className="space-y-4">
                   <h3 className="text-sm font-medium text-gray-500">
                     Quick Actions
@@ -165,10 +214,10 @@ const Profile = () => {
                     <Button
                       variant="outline"
                       className="w-full justify-start hover:bg-blue-50 hover:text-blue-600"
-                      onClick={() => navigate("/update-profile")}
+                      onClick={handleProfilePicUpdateModalOpen}
                     >
                       <User className="w-4 h-4 mr-2" />
-                      Update Profile
+                      Update Profile picture
                     </Button>
                     <Button
                       variant="outline"
@@ -202,7 +251,6 @@ const Profile = () => {
               </div>
             </CardContent>
 
-            {/* Footer */}
             <CardFooter className="flex justify-center py-4">
               <Button
                 variant="destructive"
@@ -216,6 +264,15 @@ const Profile = () => {
           </Card>
         </div>
       </div>
+
+      <UpdateProfilePicModal
+        isProfilePicModalOpen={isUpdateProfilePicModalOpen}
+        handleImageUpdateSubmit={handleImageUpdateSubmit}
+        handleProfilePicUpdateModalClose={handleProfilePicUpdateModalClose}
+        profilePicLoading={profilePicLoading}
+        handleImageUpload={handleImageUpload}
+        userImage={userImage}
+      />
     </>
   );
 };

@@ -22,7 +22,7 @@ const AboutTheAgency = () => {
 
           <div className="relative z-10 max-w-4xl mx-auto ">
             <motion.h2
-              className="text-5xl font-bold mb-6 text-white"
+              className="text-3xl sm:text-5xl font-bold mb-6 text-white"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -31,7 +31,7 @@ const AboutTheAgency = () => {
             </motion.h2>
 
             <motion.p
-              className="text-xl leading-relaxed text-gray-300 mx-auto"
+              className="text-md sm:text-xl leading-relaxed text-gray-300 mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}

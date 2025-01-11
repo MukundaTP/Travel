@@ -20,10 +20,10 @@ const MeetTheTeam = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
             Meet Our Team
           </h2>
-          <p className="text-gray-600 text-xl mx-auto">
+          <p className="text-gray-600 text-md sm:text-xl mx-auto">
             Meet the passionate professionals behind our success, dedicated to
             delivering excellence in every journey.
           </p>

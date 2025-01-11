@@ -11,7 +11,7 @@ const NewsletterSection = () => (
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold mb-4 text-gray-700"
+            className="text-2xl sm:text-3xl font-bold mb-4 text-gray-700"
           >
             Subscribe to Our Newsletter
           </motion.h3>
@@ -47,18 +47,20 @@ const NewsletterSection = () => (
           </div>
 
           {/* Trust Badges */}
-          <div className="flex items-center gap-4 mt-6">
+          <div className="flex items-center gap-4 mt-6 ">
             <div className="flex items-center gap-2 text-gray-600">
               <Shield className="w-4 h-4" />
-              <span className="text-sm">No Spam</span>
+              <span className="text-[12px] sm:text-sm">No Spam</span>
             </div>
             <div className="flex items-center gap-2 text-gray-600">
               <Mail className="w-4 h-4" />
-              <span className="text-sm">Weekly Updates</span>
+              <span className="text-[12px] sm:text-sm">Weekly Updates</span>
             </div>
             <div className="flex items-center gap-2 text-gray-600">
               <X className="w-4 h-4" />
-              <span className="text-sm">Unsubscribe Anytime</span>
+              <span className="text-[12px] sm:text-sm">
+                Unsubscribe Anytime
+              </span>
             </div>
           </div>
         </motion.div>

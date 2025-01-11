@@ -25,7 +25,7 @@ const ContactForm = ({ form, isLoading, onSubmit }) => {
     <motion.div variants={fadeIn}>
       <Card className="p-6 backdrop-blur-lg bg-white/95 shadow-xl">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold flex items-center gap-2">
+          <CardTitle className="text-xl sm:text-2xl font-bold flex items-center gap-2">
             <Send className="h-6 w-6" />
             Send us a Message
           </CardTitle>

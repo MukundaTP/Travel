@@ -7,6 +7,7 @@ const {
   updatePassword,
   forgotPassword,
   resetPassword,
+  updateProfilePic,
 } = require("../controllers/UserController");
 const {
   isAuthenticatedUser,
@@ -23,5 +24,6 @@ router
   .put(isAuthenticatedUser, isAdmin, updatePassword);
 router.route("/forgotPassword").put(forgotPassword);
 router.route("/resetPassword/:token").put(resetPassword);
+router.route("/updateProfilePicture").patch(updateProfilePic);
 
 module.exports = router;

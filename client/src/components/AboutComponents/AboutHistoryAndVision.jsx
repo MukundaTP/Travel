@@ -62,7 +62,7 @@ const HistoryAndVision = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-5xl font-bold mb-6 text-white"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-white"
             >
               Our History & Vision
             </motion.h2>

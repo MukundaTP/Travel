@@ -31,7 +31,7 @@ const CallToAction = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-4xl font-bold mb-6"
+            className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6"
           >
             Ready to Experience Luxury Travel?
           </motion.h2>
@@ -40,7 +40,7 @@ const CallToAction = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-2xl text-gray-100 mb-10"
+            className="text-md md:text-xl text-gray-100 mb-10"
           >
             Contact us now to customize your perfect journey
           </motion.p>

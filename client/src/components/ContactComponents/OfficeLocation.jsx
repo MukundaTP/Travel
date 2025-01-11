@@ -20,8 +20,10 @@ const OfficeLocation = () => {
     >
       <div className="container mx-auto px-4">
         <motion.div className="text-center mb-12" variants={fadeIn}>
-          <h2 className="text-4xl font-bold mb-4">Visit Our Office</h2>
-          <p className="text-gray-600 text-lg">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+            Visit Our Office
+          </h2>
+          <p className="text-gray-600 text-md sm:text-xl">
             Come visit us at our main office to discuss your travel plans in
             person
           </p>
