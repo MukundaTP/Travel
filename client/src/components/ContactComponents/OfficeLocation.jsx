@@ -41,11 +41,12 @@ const OfficeLocation = () => {
                     Main Office
                   </h3>
                   <p className="text-gray-600">
-                    123 Travel Street
+                    6/B 3rd main 7th cross <br />
+                    Vinayakanagara (paduvarhalli)
                     <br />
-                    Suite 456
+                    Near basaveshwara Choultry
                     <br />
-                    New York, NY 10001
+                    Mysore-570012
                   </p>
                 </div>
               </div>
@@ -63,15 +64,15 @@ const OfficeLocation = () => {
                   <ul className="text-gray-600 space-y-2">
                     <li className="flex items-center gap-2">
                       <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                      Monday - Friday: 9:00 AM - 6:00 PM
+                      Monday - 24 x 7
                     </li>
                     <li className="flex items-center gap-2">
                       <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                      Saturday: 10:00 AM - 4:00 PM
+                      Saturday - 24 x 7
                     </li>
                     <li className="flex items-center gap-2">
                       <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-                      Sunday: Closed
+                      Sunday - 24 x 7
                     </li>
                   </ul>
                 </div>

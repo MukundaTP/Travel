@@ -3,6 +3,8 @@ import { FaArrowUp } from "react-icons/fa"; // Import arrow icon
 import React, { useState, useEffect, Suspense } from "react";
 import ProtectedRoute from "./components/layouts/ProtectedRoute";
 import PageLoader from "./components/layouts/PageLoader";
+import { HelmetProvider } from "react-helmet-async";
+import SEO from "./components/SEO";
 const Home = React.lazy(() => import("./pages/Home"));
 const TravelNavbar = React.lazy(() => import("./components/layouts/Navbar"));
 const About = React.lazy(() => import("./pages/About"));
@@ -50,43 +52,51 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Suspense fallback={<PageLoader />}>
-        <TravelNavbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/update-password" element={<UpdatePassword />} />
-          <Route path="/reset/password/:token" element={<ResetPassword />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route element={<ProtectedRoute />}>
-            <Route element={<AdminLayout />}>
-              <Route path="/dashboard" element={<AdminDashboard />} />
-              <Route path="/queries" element={<ContactQueries />} />
-              <Route path="/reviews" element={<Reviews />} />
-              <Route path="/users" element={<Users />} />
-            </Route>
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer />
+    <>
+      <HelmetProvider>
+        <SEO />
+        <BrowserRouter>
+          <Suspense fallback={<PageLoader />}>
+            <TravelNavbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/update-password" element={<UpdatePassword />} />
+              <Route
+                path="/reset/password/:token"
+                element={<ResetPassword />}
+              />
+              <Route path="/profile" element={<Profile />} />
+              <Route element={<ProtectedRoute />}>
+                <Route element={<AdminLayout />}>
+                  <Route path="/dashboard" element={<AdminDashboard />} />
+                  <Route path="/queries" element={<ContactQueries />} />
+                  <Route path="/reviews" element={<Reviews />} />
+                  <Route path="/users" element={<Users />} />
+                </Route>
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <Footer />
 
-        {/* Scroll-to-top button */}
-        {isVisible && (
-          <div
-            onClick={scrollToTop}
-            className="fixed bottom-10 right-10 cursor-pointer animate-bounce z-50"
-          >
-            <FaArrowUp className="w-10 h-10 text-white bg-gray-900 p-2 rounded-full" />
-          </div>
-        )}
-      </Suspense>
-    </BrowserRouter>
+            {/* Scroll-to-top button */}
+            {isVisible && (
+              <div
+                onClick={scrollToTop}
+                className="fixed bottom-10 right-10 cursor-pointer animate-bounce z-50"
+              >
+                <FaArrowUp className="w-10 h-10 text-white bg-gray-900 p-2 rounded-full" />
+              </div>
+            )}
+          </Suspense>
+        </BrowserRouter>
+      </HelmetProvider>
+    </>
   );
 };
 

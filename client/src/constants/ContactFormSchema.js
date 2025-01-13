@@ -22,14 +22,20 @@ export const contactFormSchema = z.object({
       /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/,
       "Please enter a valid phone number"
     ),
-  altPhone: z
+  startLocation: z
     .string()
-    .min(10, "Alternative Phone number must be at least 10 digits")
-    .max(15, "Alternative Phone number must not exceed 15 digits")
-    .regex(
-      /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/,
-      "Please enter a valid phone number"
-    ),
+    .min(2, "Starting location must be at least 2 characters")
+    .max(30, "Starting location must not exceed 30 characters"),
+  endLocation: z
+    .string()
+    .min(2, "Destination must be at least 2 characters")
+    .max(30, "Destination must not exceed 30 characters"),
+  departureDate: z.string().min(1, "Please select a departure date"),
+  departureTime: z.string().min(1, "Please select a departure time"),
+  travelers: z
+    .string()
+    .min(1, "Please enter number of travelers")
+    .regex(/^\d+$/, "Please enter a valid number"),
   message: z
     .string()
     .min(10, "Message must be at least 10 characters")

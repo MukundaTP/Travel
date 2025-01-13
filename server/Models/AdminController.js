@@ -3,6 +3,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const Contact = require("./ContactSchema");
 const Reviews = require("./ReviewSchema");
 const User = require("./UserSchema");
+const TeamMember = require("./Team");
 const cloudinary = require("cloudinary");
 
 exports.getAllUsers = CatchAsyncErrors(async (req, res, next) => {
@@ -207,5 +208,127 @@ exports.deleteContactQuery = CatchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Contact query deleted successfully",
+  });
+});
+
+// Create New Team Member
+exports.createTeamMember = CatchAsyncErrors(async (req, res, next) => {
+  const { name, designation, description, image } = req.body;
+
+  // Upload image to cloudinary
+  const myCloud = await cloudinary.v2.uploader.upload(image, {
+    folder: "travel/team",
+    width: 700,
+    height: 700,
+    crop: "scale",
+  });
+
+  const teamMember = await TeamMember.create({
+    name,
+    designation,
+    description,
+    image: {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    },
+  });
+
+  res.status(201).json({
+    success: true,
+    teamMember,
+  });
+});
+
+// Get All Team Members
+exports.getAllTeamMembers = CatchAsyncErrors(async (req, res, next) => {
+  const teamMembers = await TeamMember.find();
+
+  res.status(200).json({
+    success: true,
+    count: teamMembers.length,
+    teamMembers,
+  });
+});
+
+// Get Single Team Member
+exports.getSingleTeamMember = CatchAsyncErrors(async (req, res, next) => {
+  const teamMember = await TeamMember.findById(req.params.id);
+
+  if (!teamMember) {
+    return next(new ErrorHandler("Team Member not found", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    teamMember,
+  });
+});
+
+// Update Team Member
+exports.updateTeamMember = CatchAsyncErrors(async (req, res, next) => {
+  let teamMember = await TeamMember.findById(req.params.id);
+
+  if (!teamMember) {
+    return next(new ErrorHandler("Team Member not found", 404));
+  }
+
+  // If new image is uploaded
+  if (req.body.image && req.body.image !== teamMember.image.url) {
+    try {
+      // Delete existing image from cloudinary
+      await cloudinary.v2.uploader.destroy(teamMember.image.public_id);
+
+      // Upload new image
+      const cloudinaryResponse = await cloudinary.v2.uploader.upload(
+        req.body.image,
+        {
+          folder: "travel/team",
+          width: 700,
+          height: 700, // Added height to match create
+          crop: "scale",
+        }
+      );
+
+      teamMember.image = {
+        public_id: cloudinaryResponse.public_id,
+        url: cloudinaryResponse.secure_url,
+      };
+    } catch (error) {
+      console.error("Cloudinary error:", error);
+      return next(new ErrorHandler("Failed to update image", 500));
+    }
+  }
+
+  // Update other fields
+  teamMember.name = req.body.name || teamMember.name;
+  teamMember.designation = req.body.designation || teamMember.designation;
+  teamMember.description = req.body.description || teamMember.description;
+
+  // Save the updated team member
+  await teamMember.save();
+
+  res.status(200).json({
+    success: true,
+    teamMember,
+  });
+});
+
+// Delete Team Member
+exports.deleteTeamMember = CatchAsyncErrors(async (req, res, next) => {
+  const teamMember = await TeamMember.findById(req.params.id);
+
+  if (!teamMember) {
+    return next(new ErrorHandler("Team Member not found", 404));
+  }
+
+  // Delete image from cloudinary - Add v2 here
+  await cloudinary.v2.uploader.destroy(teamMember.image.public_id);
+
+  // Remove team member from database
+  await teamMember.deleteOne();
+
+  res.status(200).json({
+    success: true,
+    message: "Team Member deleted successfully",
   });
 });

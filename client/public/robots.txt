@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://yourwebsite.com/sitemap.xml
+
+# Restrict specific directories
+Disallow: /admin/
+Disallow: /private/

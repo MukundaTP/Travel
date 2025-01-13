@@ -188,7 +188,7 @@ const Navbar = () => {
               <NavLink to="/" className="flex items-center gap-2 no-underline">
                 <Car className="h-8 w-8 text-gray-700" />
                 <span className="font-bold text-xl text-gray-800 italic">
-                  TravelEase
+                  CTT
                 </span>
               </NavLink>
             </motion.div>

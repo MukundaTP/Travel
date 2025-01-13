@@ -12,6 +12,11 @@ const {
   deleteReview,
   getAllContactQueries,
   deleteContactQuery,
+  createTeamMember,
+  updateTeamMember,
+  deleteTeamMember,
+  getAllTeamMembers,
+  getSingleTeamMember,
 } = require("../Models/AdminController");
 const router = express.Router();
 
@@ -34,5 +39,15 @@ router
 router
   .route("/contact-query/:id")
   .delete(isAuthenticatedUser, isAdmin, deleteContactQuery);
+router
+  .route("/team")
+  .post(isAuthenticatedUser, isAdmin, createTeamMember)
+  .get(getAllTeamMembers);
+
+router
+  .route("/team/:id")
+  .get(isAuthenticatedUser, isAdmin, getSingleTeamMember)
+  .put(isAuthenticatedUser, isAdmin, updateTeamMember)
+  .delete(isAuthenticatedUser, isAdmin, deleteTeamMember);
 
 module.exports = router;

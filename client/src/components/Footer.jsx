@@ -52,7 +52,7 @@ const Footer = () => {
               <h2 className="text-2xl font-bold ">TravelAgency</h2>
               <p className="text-gray-400 leading-relaxed">
                 Providing premium transportation services with comfort, safety,
-                and style since 2010.
+                and style since 2012.
               </p>
               <div className="flex space-x-4">
                 <SocialLink Icon={Facebook} href="#" />
@@ -92,17 +92,25 @@ const Footer = () => {
               <ul className="space-y-4 text-gray-400">
                 <ContactInfo
                   Icon={Phone}
-                  text="+91 9998887779"
-                  href="tel:+15551234567"
+                  text="+91 9916593999"
+                  href="tel:+919916593999"
+                />
+                <ContactInfo
+                  Icon={Phone}
+                  text="+91 8105889639"
+                  href="tel:+918105889639"
                 />
                 <ContactInfo
                   Icon={Mail}
-                  text="rohithmanjunath@hotmail.com"
-                  href="mailto:rohithmanjunath@hotmail.com"
+                  text="mukundamysore85@gmail.com"
+                  href="mailto:mukundamysore85@gmail.com"
                 />
                 <ContactInfo
                   Icon={MapPin}
-                  text="123 Transport Street, City, Country"
+                  text="6/B 3rd main 7th cross 
+Vinayakanagara(paduvarhalli)
+Near basaveshwara Choultry 
+Mysore-570012"
                 />
                 <ContactInfo Icon={Clock} text="24/7 Available" />
               </ul>

@@ -11,15 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import {
-  User,
-  Mail,
-  Calendar,
-  Shield,
-  Camera,
-  Key,
-  LogOut,
-} from "lucide-react";
+import { Mail, Camera, LogOut } from "lucide-react";
 import { format } from "date-fns";
 import { LogoutUser, setUser } from "../../Redux/UserSlice";
 import {
@@ -29,6 +21,9 @@ import {
 import { useAlert } from "react-alert";
 import MetaData from "@/components/layouts/MetaData";
 import UpdateProfilePicModal from "@/components/AdminDashboardComponents/UpdateProfilePicture";
+import AccountDetails from "@/components/AdminDashboardComponents/AccountDetails";
+import AccountStatus from "@/components/AdminDashboardComponents/AccountStatus";
+import QuickActions from "@/components/AdminDashboardComponents/QuickActions";
 
 const Profile = () => {
   // States
@@ -154,100 +149,19 @@ const Profile = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Account Details Section */}
                 <div className="space-y-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500 mb-2">
-                      Account Details
-                    </h3>
-                    <div className="bg-white p-3 rounded-lg border space-y-3">
-                      <div className="flex items-center gap-3">
-                        <User className="w-5 h-5 text-gray-700" />
-                        <div>
-                          <p className="text-sm font-medium">Name</p>
-                          <p className="text-gray-600">{user?.name}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Mail className="w-5 h-5 text-gray-700" />
-                        <div>
-                          <p className="text-sm font-medium">Email</p>
-                          <p className="text-gray-600">{user?.email}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500 mb-2">
-                      Account Status
-                    </h3>
-                    <div className="bg-white p-3 rounded-lg border space-y-3">
-                      <div className="flex items-center gap-3">
-                        <Shield className="w-5 h-5 text-gray-700" />
-                        <div>
-                          <p className="text-sm font-medium">Role</p>
-                          <div className="flex items-center gap-2">
-                            <p className="text-gray-600">
-                              {user?.isAdmin ? "Admin" : "User"}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Calendar className="w-5 h-5 text-gray-700" />
-                        <div>
-                          <p className="text-sm font-medium">Member Since</p>
-                          <p className="text-gray-600">
-                            {formatDate(user?.createdAt)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <AccountDetails user={user} />
+                  <AccountStatus user={user} formatDate={formatDate} />
                 </div>
 
                 {/* Quick Actions Section */}
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-gray-500">
-                    Quick Actions
-                  </h3>
-                  <div className="bg-white p-3 rounded-lg border space-y-3">
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start hover:bg-blue-50 hover:text-blue-600"
-                      onClick={handleProfilePicUpdateModalOpen}
-                    >
-                      <User className="w-4 h-4 mr-2" />
-                      Update Profile picture
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start hover:bg-blue-50 hover:text-blue-600"
-                      onClick={() => navigate("/update-password")}
-                    >
-                      <Key className="w-4 h-4 mr-2" />
-                      Change Password
-                    </Button>
-                    {user?.isAdmin && (
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start hover:bg-blue-50 hover:text-blue-600"
-                        onClick={() => navigate("/dashboard")}
-                      >
-                        <Shield className="w-4 h-4 mr-2" />
-                        Admin Dashboard
-                      </Button>
-                    )}
-                  </div>
-
-                  <div className="bg-gray-200 p-3 rounded-lg border">
-                    <div className="text-center">
-                      <p className="text-sm text-gray-600 mb-2">Last Login</p>
-                      <p className="text-sm font-medium">
-                        {format(new Date(), "MMM dd, yyyy")}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <QuickActions
+                  handleProfilePicUpdateModalOpen={
+                    handleProfilePicUpdateModalOpen
+                  }
+                  navigate={navigate}
+                  format={format}
+                  user={user}
+                />
               </div>
             </CardContent>
 

@@ -19,13 +19,33 @@ const contactFormSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    altPhone: {
+    startLocation: {
+      type: String,
+      trim: true,
+    },
+    endLocation: {
+      type: String,
+      trim: true,
+    },
+    departureDate: {
+      type: String,
+      trim: true,
+    },
+    departureTime: {
+      type: String,
+      trim: true,
+    },
+    travelers: {
       type: String,
       trim: true,
     },
     message: {
       type: String,
       trim: true,
+    },
+    status: {
+      type: String,
+      default: "pending",
     },
   },
   {

@@ -1,16 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Character Encoding -->
     <meta charset="UTF-8" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+
+    <!-- Viewport for Responsive Design -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
     />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chaitanya Tours And Travels</title>
+
+    <!-- Primary Meta Tags -->
+    <title>Chaitanya Tours And Travels - Your Ultimate Travel Companion</title>
+    <meta
+      name="title"
+      content="Chaitanya Tours And Travels - Your Ultimate Travel Companion"
+    />
+    <meta
+      name="description"
+      content="Discover unforgettable journeys with Chaitanya Tours And Travels. Expert travel planning, personalized itineraries, and seamless travel experiences across India and beyond."
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/favicon.png" />
+
+    <!-- Font Awesome -->
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      />
+    </noscript>
+
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="business.business" />
+    <meta property="og:title" content="Chaitanya Tours And Travels" />
+    <meta
+      property="og:description"
+      content="Expert travel planning and personalized tour experiences"
+    />
+    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:url" content="https://www.chaitanyatours.com" />
+    <meta
+      property="business:contact_data:street_address"
+      content="Your Business Address"
+    />
+    <meta property="business:contact_data:locality" content="Your City" />
+    <meta property="business:contact_data:region" content="Your State" />
+    <meta
+      property="business:contact_data:postal_code"
+      content="Your Postal Code"
+    />
+    <meta property="business:contact_data:country_name" content="India" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Chaitanya Tours And Travels" />
+    <meta
+      name="twitter:description"
+      content="Expert travel planning and personalized tour experiences"
+    />
+    <meta name="twitter:image" content="/og-image.jpg" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.chaitanyatours.com" />
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.placename" content="Your City, Your State" />
+
+    <!-- Robots Meta Tag -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+
+    <!-- Structured Data - Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        "name": "Chaitanya Tours And Travels",
+        "image": "/logo.jpg",
+        "@id": "https://www.chaitanyatours.com",
+        "url": "https://www.chaitanyatours.com",
+        "telephone": "+91-9916593999",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "6/B 3rd main 7th cross
+          Vinayakanagara(paduvarhalli)",
+          "addressLocality": "Mysuru",
+          "addressRegion": "Karnataka",
+          "postalCode": "570012",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 12.3170843,
+          "longitude": 76.6300724
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "09:00",
+          "closes": "10:00"
+        },
+        "sameAs": [
+          "https://www.facebook.com/chaitanyatours",
+          "https://www.instagram.com/chaitanyatours",
+          "https://www.twitter.com/chaitanyatours"
+        ]
+      }
+    </script>
+
+    <!-- Verification Tags (replace with your actual verification codes) -->
+    <meta
+      name="google-site-verification"
+      content="YOUR_GOOGLE_VERIFICATION_CODE"
+    />
+    <meta
+      name="facebook-domain-verification"
+      content="YOUR_FACEBOOK_VERIFICATION_CODE"
+    />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#your-primary-color" />
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Performance Hints -->
+    <link rel="preload" href="/src/main.jsx" as="script" />
+
+    <!-- Critical CSS (if applicable) -->
+    <style>
+      /* Add critical, above-the-fold CSS here to improve initial render */
+      body {
+        font-display: swap;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- Accessibility: Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Root Container -->
+    <div id="root" role="main" aria-label="Main Content"></div>
+
+    <!-- Main Script with Performance Optimization -->
+    <script type="module" src="/src/main.jsx" defer async></script>
+
+    <!-- Fallback for No JavaScript -->
+    <noscript>
+      <p>You need to enable JavaScript to run this application.</p>
+    </noscript>
+
+    <!-- Optional: Performance Tracking -->
+    <script>
+      // Web Vitals tracking (minimal example)
+      window.addEventListener("load", () => {
+        if (window.performance) {
+          const timing = window.performance.timing;
+          const loadTime = timing.loadEventEnd - timing.navigationStart;
+          console.log("Page Load Time:", loadTime);
+          // You can send this to your analytics service
+        }
+      });
+    </script>
   </body>
 </html>

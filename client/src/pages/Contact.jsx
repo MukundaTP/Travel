@@ -25,12 +25,14 @@ const ContactPage = () => {
       lastName: "",
       email: "",
       phone: "",
-      destination: "",
+      startLocation: "",
+      endLocation: "",
+      departureDate: "",
+      departureTime: "",
+      travelers: "",
       message: "",
-      altPhone: "",
     },
   });
-
   const onSubmit = async (data) => {
     try {
       const result = await postContactQuery({
@@ -38,7 +40,11 @@ const ContactPage = () => {
         lastName: data.lastName,
         email: data.email,
         phone: data.phone,
-        altPhone: data.altPhone,
+        startLocation: data.startLocation,
+        endLocation: data.endLocation,
+        departureDate: data.departureDate,
+        departureTime: data.departureTime,
+        travelers: data.travelers,
         message: data.message,
       }).unwrap();
 

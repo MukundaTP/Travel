@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@ag-grid-community/client-side-row-model": "^32.3.3",
@@ -34,7 +35,10 @@
     "flowbite": "^2.5.2",
     "flowbite-react": "^0.10.2",
     "framer-motion": "^11.16.4",
+    "fs": "^0.0.1-security",
     "lucide-react": "^0.469.0",
+    "moment": "^2.30.1",
+    "rc-time-picker": "^3.7.3",
     "react": "^18.3.1",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
@@ -48,7 +52,9 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.1",
     "react-slick": "^0.30.3",
+    "react-time-picker": "^7.0.0",
     "redux-persist": "^6.0.0",
+    "sitemap": "^8.0.0",
     "slick-carousel": "^1.8.1",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.6.0",

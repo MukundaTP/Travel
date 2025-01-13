@@ -12,7 +12,7 @@ export const adminApi = createApi({
   endpoints: (builder) => ({
     getAllUsers: builder.query({
       query: () => "users",
-      providesTags: ["Users", "Reviews", "ContactQueries"], // Add this for cache invalidation
+      providesTags: ["Users", "Reviews", "ContactQueries", "TeamMembers"], // Add this for cache invalidation
       transformResponse: (response) => {
         // Add a transform to handle the response structure
         return response;
@@ -74,6 +74,48 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["ContactQueries"],
     }),
+    getAllTeamMembers: builder.query({
+      query: () => "team",
+      providesTags: ["TeamMembers"],
+      transformResponse: (response) => response.teamMembers,
+    }),
+    getSingleTeamMember: builder.query({
+      query: (id) => `team/${id}`,
+      providesTags: (result, error, id) => [{ type: "TeamMembers", id }],
+      transformResponse: (response) => response.teamMember,
+    }),
+
+    createTeamMember: builder.mutation({
+      query: (teamMemberData) => ({
+        url: "team",
+        method: "POST",
+        body: teamMemberData,
+        credentials: "include",
+      }),
+      invalidatesTags: ["TeamMembers"],
+    }),
+
+    updateTeamMember: builder.mutation({
+      query: ({ id, ...teamMemberData }) => ({
+        url: `team/${id}`,
+        method: "PUT",
+        body: teamMemberData,
+        credentials: "include",
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "TeamMembers", id },
+        "TeamMembers",
+      ],
+    }),
+
+    deleteTeamMember: builder.mutation({
+      query: (id) => ({
+        url: `team/${id}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["TeamMembers"],
+    }),
   }),
 });
 
@@ -86,4 +128,9 @@ export const {
   useUpdateReviewMutation,
   useGetAllContactQueriesQuery,
   useDeleteContactQueriesMutation,
+  useGetAllTeamMembersQuery,
+  useGetSingleTeamMemberQuery,
+  useCreateTeamMemberMutation,
+  useUpdateTeamMemberMutation,
+  useDeleteTeamMemberMutation,
 } = adminApi;
