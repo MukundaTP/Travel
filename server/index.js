@@ -20,7 +20,7 @@ const ContactRoute = require("./Routes/ContactRoute");
 const AdminRoute = require("./Routes/AdminRoute");
 // const AdminRoute = require("./routes/adminRoutes");W
 // const PaymentRoute = require("./routes/paymentRoute");
-const error = require("./middlewares/error");
+const error = require("./Middlewares/error");
 const { dbConnection } = require("./config/dbConnection");
 
 // Add middleware

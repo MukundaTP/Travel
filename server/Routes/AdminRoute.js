@@ -2,7 +2,7 @@ const express = require("express");
 const {
   isAuthenticatedUser,
   isAdmin,
-} = require("../middlewares/isAuthenticated.js");
+} = require("../Middlewares/isAuthenticated.js");
 const {
   getAllUsers,
   deleteUser,

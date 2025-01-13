@@ -12,7 +12,7 @@ const {
 const {
   isAuthenticatedUser,
   isAdmin,
-} = require("../middlewares/isAuthenticated.js");
+} = require("../Middlewares/isAuthenticated.js");
 const router = express.Router();
 
 router.route("/").get(Home);
