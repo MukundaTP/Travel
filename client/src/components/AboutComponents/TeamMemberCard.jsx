@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Edit2, Trash2 } from "lucide-react";
 import DeleteTeamMemberModal from "../AdminDashboardComponents/DeleteTeamMemberModal";
 import EditTeamMemberModal from "../AdminDashboardComponents/EditTeamMember";
+import { useSelector } from "react-redux";
 
 const AdminButton = ({ Icon, onClick, label, variant }) => (
   <motion.button
@@ -22,11 +23,11 @@ const AdminButton = ({ Icon, onClick, label, variant }) => (
 const TeamMemberCard = ({ member, index, isHovering, setIsHovering }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
+  const { user } = useSelector((state) => state?.user);
   return (
     <>
       <div
-        className="w-full md:w-1/3 flex-shrink-0 px-6"
+        className="w-full md:w-1/3 flex-shrink-0 px-6 hover:cursor-pointer"
         onMouseEnter={() => setIsHovering(index)}
         onMouseLeave={() => setIsHovering(null)}
       >
@@ -35,29 +36,31 @@ const TeamMemberCard = ({ member, index, isHovering, setIsHovering }) => {
           className="text-center group relative"
         >
           {/* Image Container */}
-          <div className="relative mb-8 transform transition duration-500 ease-in-out group-hover:scale-105">
-            <div className="w-64 h-64 mx-auto relative">
+          <div className="relative mb-8 transform transition duration-500 ease-in-out group-hover:scale-105 hover:cursor-pointer">
+            <div className="w-64 h-64 mx-auto relative hover:cursor-pointer">
               {/* Admin Controls - Positioned at top right corner */}
-              <div
-                className={`absolute top-8 right-2 z-20 flex items-center gap-2 transition-all duration-300 ${
-                  isHovering === index
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 -translate-y-2"
-                }`}
-              >
-                <AdminButton
-                  Icon={Edit2}
-                  onClick={() => setIsEditModalOpen(true)}
-                  label="Edit team member"
-                  variant="edit"
-                />
-                <AdminButton
-                  Icon={Trash2}
-                  onClick={() => setIsDeleteModalOpen(true)}
-                  label="Delete team member"
-                  variant="delete"
-                />
-              </div>
+              {user?.isAdmin && (
+                <div
+                  className={`absolute top-8 right-2 z-20 flex items-center gap-2 transition-all duration-300 ${
+                    isHovering === index
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 -translate-y-2"
+                  }`}
+                >
+                  <AdminButton
+                    Icon={Edit2}
+                    onClick={() => setIsEditModalOpen(true)}
+                    label="Edit team member"
+                    variant="edit"
+                  />
+                  <AdminButton
+                    Icon={Trash2}
+                    onClick={() => setIsDeleteModalOpen(true)}
+                    label="Delete team member"
+                    variant="delete"
+                  />
+                </div>
+              )}
               <img
                 src={member.image?.url || "/api/placeholder/400/400"}
                 alt={member.name}

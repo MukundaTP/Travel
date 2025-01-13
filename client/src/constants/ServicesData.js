@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 export const vehicleExamples = {
-  "4-Wheelers": {
+  "4 + 1(Driver) Seaters": {
     icon: CarIcon,
     description: "Perfect for intimate gatherings and business meetings",
     examples: [
@@ -35,7 +35,7 @@ export const vehicleExamples = {
       "LCD Screens",
     ],
   },
-  "6-Wheelers": {
+  "12 + 1(Driver) Seaters": {
     icon: Taxi,
     description: "Ideal for medium-sized groups seeking comfort and style",
     examples: [
@@ -57,7 +57,7 @@ export const vehicleExamples = {
       "LCD Screens",
     ],
   },
-  "8-Wheelers": {
+  "25 Seaters": {
     icon: Truck,
     description: "Perfect for large groups and special occasions",
     examples: [
@@ -79,7 +79,7 @@ export const vehicleExamples = {
       "LCD Screens",
     ],
   },
-  "10-Wheelers": {
+  "35 Seaters": {
     icon: Bus,
     description: "Designed for large-scale events and group tours",
     examples: [

@@ -155,10 +155,12 @@ const Navbar = () => {
           <UserIcon className="mr-2 h-4 w-4" />
           Profile
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-          <LayoutDashboard className="mr-2 h-4 w-4" />
-          Dashboard
-        </DropdownMenuItem>
+        {user?.isAdmin && (
+          <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+            <LayoutDashboard className="mr-2 h-4 w-4" />
+            Dashboard
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
           Logout

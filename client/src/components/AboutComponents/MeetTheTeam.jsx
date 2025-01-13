@@ -8,7 +8,6 @@ import AddTeamMemberModal from "../AdminDashboardComponents/AddTeamMemberModal";
 const MeetTheTeam = () => {
   const [isHovering, setIsHovering] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
 
   const {
     data: teamMembers = [],
@@ -21,11 +20,6 @@ const MeetTheTeam = () => {
     refetchOnFocus: false,
     refetchOnReconnect: true,
   });
-
-  const extendedTeamMembers =
-    teamMembers.length > 0
-      ? [...teamMembers, ...teamMembers, ...teamMembers]
-      : [];
 
   const renderContent = () => {
     if (isLoading) {
@@ -74,21 +68,40 @@ const MeetTheTeam = () => {
       );
     }
 
+    // Determine the rendering approach based on number of team members
+    if (teamMembers.length <= 3) {
+      return (
+        <div className="flex justify-center space-x-6">
+          {teamMembers.map((member, index) => (
+            <TeamMemberCard
+              key={member._id}
+              member={member}
+              index={index}
+              isHovering={isHovering}
+              setIsHovering={setIsHovering}
+              className="w-1/3"
+            />
+          ))}
+        </div>
+      );
+    }
+
+    // For more than 3 members, use the marquee effect
+    const extendedTeamMembers = [
+      ...teamMembers,
+      ...teamMembers,
+      ...teamMembers,
+    ];
+
     return (
-      <div
-        className="relative overflow-hidden"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
+      <div className="relative overflow-hidden">
         {/* Gradient Overlays */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-50 to-transparent z-10" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-50 to-transparent z-10" />
 
         {/* Marquee Container */}
         <div
-          className={`flex ${
-            teamMembers.length >= 4 && !isPaused ? "animate-marquee" : ""
-          } transition-all duration-300`}
+          className="flex animate-marquee"
           style={{
             width: `${teamMembers.length * 33.33}%`,
           }}
@@ -158,7 +171,6 @@ const MeetTheTeam = () => {
         }
         .animate-marquee {
           animation: marquee 30s linear infinite;
-          transition: transform 0.3s ease;
         }
       `}</style>
 
