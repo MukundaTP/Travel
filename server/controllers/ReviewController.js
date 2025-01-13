@@ -1,6 +1,6 @@
 const Reviews = require("../Models/ReviewSchema");
 const CatchAsyncErrors = require("../utils/CatchAsyncErrors");
-const ErrorHandler = require("../utils/errorHandler");
+const ErrorHandler = require("../utils/ErrorHandler");
 const cloudinary = require("cloudinary");
 
 // Create or Update Review
