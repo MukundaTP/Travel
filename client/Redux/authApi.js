@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Define production and development URLs
-const productionUrl = "https://school-web-wpxn.onrender.com/api/";
+const productionUrl = "https://travel-lql7.onrender.com/api/";
 const devUrl = "http://localhost:4000/api/";
 
 // Dynamically select base URL based on the environment

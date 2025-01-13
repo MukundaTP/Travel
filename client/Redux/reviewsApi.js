@@ -6,7 +6,7 @@ export const reviewsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl:
       process.env.NODE_ENV === "production"
-        ? "https://school-web-wpxn.onrender.com/api/"
+        ? "https://travel-lql7.onrender.com/api/"
         : "http://localhost:4000/api/",
   }),
   tagTypes: ["Reviews"],

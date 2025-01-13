@@ -5,7 +5,7 @@ export const adminApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl:
       process.env.NODE_ENV === "production"
-        ? "https://school-web-wpxn.onrender.com/api/admin/" // Added 'admin/' to match local URL
+        ? "https://travel-lql7.onrender.com/api/admin/" // Added 'admin/' to match local URL
         : "http://localhost:4000/api/admin/",
     credentials: "include",
   }),

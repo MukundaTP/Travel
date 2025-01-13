@@ -7,7 +7,7 @@ const cors = require("cors");
 
 const cloudinary = require("cloudinary");
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: ["http://localhost:5173", process.env.FRONTEND_URL],
   credentials: true,
 };
 
