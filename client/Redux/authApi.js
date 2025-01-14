@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// Correct way to access Vite environment variables
+const devUrl = `${import.meta.env.VITE_API_DEV_URL}/api/`;
+const productionUrl = `${import.meta.env.VITE_API_PRODUCTION_URL}/api/`;
 
-// Define production and development URLs
-const productionUrl = "https://travel-lql7.onrender.com/api/";
-const devUrl = "http://localhost:4000/api/";
-
-// Dynamically select base URL based on the environment
-const baseUrl = process.env.NODE_ENV === "production" ? productionUrl : devUrl;
+// Updated environment-based URL selection
+const baseUrl = import.meta.env.PROD ? productionUrl : devUrl;
 
 export const myApi = createApi({
   reducerPath: "api",

@@ -12,7 +12,7 @@ const Home = () => {
 
   return (
     <>
-      <MetaData title={"Chaitanya Tours And Travels"} />
+      <MetaData title={"Chaithanya Tours And Travels"} />
       <div>
         <CarouselComponent />
         <HighlightSection />

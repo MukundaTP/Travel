@@ -8,7 +8,7 @@ const crypto = require("crypto");
 exports.Home = (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Welcome to Chaitanya Tours and Travels",
+    message: "Welcome to Chaithanya Tours and Travels",
   });
 };
 
@@ -79,7 +79,7 @@ exports.loginUser = CatchAsyncErrors(async (req, res, next) => {
   try {
     await sendEmail({
       email: user.email,
-      subject: "Logged in to Chaitanya Tours and Travels successfully",
+      subject: "Logged in to Chaithanya Tours and Travels successfully",
       message,
     });
   } catch (e) {

@@ -4,7 +4,7 @@ import { SitemapStream, streamToPromise } from "sitemap";
 async function generateSitemap() {
   try {
     const smStream = new SitemapStream({
-      hostname: "https://www.chaitanyatours.com",
+      hostname: "https://www.chaithanyatoursandtravels.com",
     });
 
     // Define your routes

@@ -1,22 +1,22 @@
 export const SEO_CONFIG = {
-  title: "Chaitanya Tours And Travels - Your Ultimate Travel Companion",
+  title: "Chaithanya Tours And Travels - Your Ultimate Travel Companion",
   description:
-    "Discover unforgettable journeys with Chaitanya Tours And Travels. Expert travel planning, personalized itineraries, and seamless travel experiences across India and beyond.",
+    "Discover unforgettable journeys with Chaithanya Tours And Travels. Expert travel planning, personalized itineraries, and seamless travel experiences across India and beyond.",
   keywords:
     "tours, travels, travel agency, vacation, tour packages, India travel",
-  author: "Chaitanya Tours And Travels",
+  author: "Chaithanya Tours And Travels",
 
   // Social Media Links
   social: {
-    facebook: "https://facebook.com/chaitanyatours",
-    instagram: "https://instagram.com/chaitanyatours",
-    twitter: "https://twitter.com/chaitanyatours",
+    facebook: "https://facebook.com/Chaithanyatours",
+    instagram: "https://instagram.com/Chaithanyatours",
+    twitter: "https://twitter.com/Chaithanyatours",
   },
 
   // Contact Information
   contact: {
     phone: "+91-XXXXXXXXXX",
-    email: "info@chaitanyatours.com",
+    email: "info@Chaithanyatours.com",
     address: {
       street: "Your Business Address",
       city: "Your City",

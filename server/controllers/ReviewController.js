@@ -2,6 +2,7 @@ const Reviews = require("../Models/ReviewSchema");
 const CatchAsyncErrors = require("../utils/CatchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const cloudinary = require("cloudinary");
+const { sendEmail } = require("../utils/sendEmail");
 
 // Create or Update Review
 exports.createOrUpdateReview = CatchAsyncErrors(async (req, res, next) => {
@@ -38,6 +39,7 @@ exports.createOrUpdateReview = CatchAsyncErrors(async (req, res, next) => {
 
   // 3. Check if a review with the same email already exists
   let review = await Reviews.findOne({ email });
+  let isUpdate = false;
 
   if (review) {
     // Update existing review
@@ -47,27 +49,59 @@ exports.createOrUpdateReview = CatchAsyncErrors(async (req, res, next) => {
     review.avatar = avatarData;
 
     await review.save();
-
-    return res.status(200).json({
-      success: true,
-      message: "Review updated successfully",
-      review,
+    isUpdate = true;
+  } else {
+    // 4. Create a new review if none exists
+    review = await Reviews.create({
+      name,
+      email,
+      message,
+      rating,
+      avatar: avatarData,
     });
   }
 
-  // 4. Create a new review if none exists
-  review = await Reviews.create({
-    name,
-    email,
-    message,
-    rating,
-    avatar: avatarData,
+  // 5. Send thank you email
+  const emailSubject = isUpdate
+    ? "Thank You for Updating Your Review - Car Travel & Tours"
+    : "Thank You for Your Review - Car Travel & Tours";
+
+  const emailMessage = `
+Dear ${name},
+
+${
+  isUpdate
+    ? "Thank you for taking the time to update your review."
+    : "Thank you for taking the time to share your experience with us."
+}
+
+We greatly value your feedback and are grateful for your ${rating}-star rating. Your thoughts help us maintain and improve our services while assisting other travelers in making informed decisions.
+
+Here's what you shared with us:
+"${message}"
+
+${
+  isUpdate ? "Your updated review" : "Your review"
+} will be visible on our platform shortly. We appreciate your contribution to our community.
+
+If you have any questions or need further assistance, please don't hesitate to contact our support team.
+
+Best regards,
+Chaithanya Tours And Travels Team
+`;
+
+  await sendEmail({
+    email: email,
+    subject: emailSubject,
+    message: emailMessage,
   });
 
-  // 5. Send success response for creation
-  res.status(201).json({
+  // 6. Send success response
+  res.status(isUpdate ? 200 : 201).json({
     success: true,
-    message: "Review created successfully",
+    message: isUpdate
+      ? "Review updated successfully"
+      : "Review created successfully",
     review,
   });
 });

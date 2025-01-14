@@ -4,10 +4,12 @@ import { Plus, Users } from "lucide-react";
 import { useGetAllTeamMembersQuery } from "../../../Redux/adminAuth";
 import TeamMemberCard from "./TeamMemberCard";
 import AddTeamMemberModal from "../AdminDashboardComponents/AddTeamMemberModal";
+import { useSelector } from "react-redux";
 
 const MeetTheTeam = () => {
   const [isHovering, setIsHovering] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const { user } = useSelector((state) => state?.user);
 
   const {
     data: teamMembers = [],
@@ -57,13 +59,15 @@ const MeetTheTeam = () => {
             <Users className="w-8 h-8 text-gray-700" />
           </div>
           <p className="text-gray-700 font-medium">No team members yet</p>
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center space-x-2"
-          >
-            <Plus className="w-5 h-5" />
-            <span>Add First Team Member</span>
-          </button>
+          {user?.isAdmin && (
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center space-x-2"
+            >
+              <Plus className="w-5 h-5" />
+              <span>Add First Team Member</span>
+            </button>
+          )}
         </div>
       );
     }
@@ -144,7 +148,7 @@ const MeetTheTeam = () => {
             </p>
           </div>
 
-          {!isLoading && teamMembers.length > 0 && (
+          {user?.isAdmin && !isLoading && teamMembers.length > 0 && (
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="inline-flex items-center justify-center space-x-2 bg-gray-700 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-gray-600 transition-all duration-200 group"
