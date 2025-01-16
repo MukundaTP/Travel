@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://yourwebsite.com/sitemap.xml
+Sitemap: https://www.chaithanyatoursandtravels.com/sitemap.xml
 
 # Restrict specific directories
 Disallow: /admin/

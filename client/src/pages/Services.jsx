@@ -10,6 +10,7 @@ import {
 } from "@/constants/ServicesData";
 import ServicesHero from "@/components/ServicesComponents/ServicesHero";
 import MetaData from "@/components/layouts/MetaData";
+import BusinessServices from "@/components/ServicesComponents/BusinessServices";
 
 const Services = () => {
   // Scroll to top when the component is mounted (when the page loads)
@@ -31,6 +32,7 @@ const Services = () => {
           specialPackages={specialPackages}
           addOnServices={addOnServices}
         />
+        <BusinessServices />
         <CallToAction />
       </div>
     </>

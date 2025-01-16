@@ -104,7 +104,7 @@ const Users = () => {
   };
 
   // Filter users based on search term
-  const filteredUsers = users?.users?.filter(
+  const filteredUsers = users?.filter(
     (user) =>
       user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user?.email.toLowerCase().includes(searchTerm.toLowerCase())

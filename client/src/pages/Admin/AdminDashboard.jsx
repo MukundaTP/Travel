@@ -79,20 +79,17 @@ const AdminDashboard = () => {
     {
       icon: Users,
       label: "Total Users",
-      value: usersData?.users?.length || 0,
-      trend: 12,
+      value: usersData?.length || 0,
     },
     {
       icon: Star,
       label: "Total Reviews",
-      value: reviewsData?.reviews?.length || 0,
-      trend: 8,
+      value: reviewsData?.length || 0,
     },
     {
       icon: MessageSquare,
       label: "Contact Queries",
-      value: queriesData?.queries?.length || 0,
-      trend: -2,
+      value: queriesData?.length || 0,
     },
   ];
 
@@ -123,14 +120,14 @@ const AdminDashboard = () => {
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <RatingStats fadeIn={fadeIn} reviews={reviewsData?.reviews} />
+              <RatingStats fadeIn={fadeIn} reviews={reviewsData} />
 
               <SectionCard
                 fadeIn={fadeIn}
                 stagger={stagger}
                 title="Latest Users"
                 icon={Users}
-                data={usersData?.users}
+                data={usersData}
                 renderItem={(user) => (
                   <ItemCard
                     fadeIn={fadeIn}
@@ -149,7 +146,7 @@ const AdminDashboard = () => {
                 stagger={stagger}
                 title="Latest Reviews"
                 icon={Star}
-                data={reviewsData?.reviews}
+                data={reviewsData}
                 renderItem={(review) => (
                   <ItemCard
                     key={review._id}
@@ -167,7 +164,7 @@ const AdminDashboard = () => {
                 stagger={stagger}
                 title="Latest Queries"
                 icon={MessageSquare}
-                data={queriesData?.queries}
+                data={queriesData}
                 renderItem={(query) => (
                   <ItemCard
                     key={query._id}

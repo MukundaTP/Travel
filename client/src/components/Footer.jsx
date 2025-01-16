@@ -15,10 +15,9 @@ import NewsletterSection from "./NewsLetter";
 
 const Footer = () => {
   const quickLinks = [
+    { label: "Home", path: "/" },
     { label: "About Us", path: "/about" },
     { label: "Our Services", path: "/services" },
-    { label: "Vehicle Fleet", path: "/fleet" },
-    { label: "Booking", path: "/booking" },
     { label: "Contact", path: "/contact" },
   ];
 
@@ -81,7 +80,7 @@ const Footer = () => {
               </h3>
               <ul className="space-y-4">
                 {services.map((service, index) => (
-                  <FooterLink key={index} {...service} />
+                  <FooterServiceLink key={index} {...service} />
                 ))}
               </ul>
             </div>
@@ -169,6 +168,14 @@ const FooterLink = ({ label, path }) => (
       <ChevronRight className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" />
       {label}
     </Link>
+  </li>
+);
+const FooterServiceLink = ({ label, path }) => (
+  <li>
+    <span className="text-gray-400 hover:text-white transition-colors flex items-center group">
+      <ChevronRight className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" />
+      {label}
+    </span>
   </li>
 );
 

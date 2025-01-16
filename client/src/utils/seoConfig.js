@@ -15,14 +15,16 @@ export const SEO_CONFIG = {
 
   // Contact Information
   contact: {
-    phone: "+91-XXXXXXXXXX",
-    email: "info@Chaithanyatours.com",
+    phone: "+91-9916593999",
+    email: "mukundamysore85@gmail.com",
     address: {
-      street: "Your Business Address",
-      city: "Your City",
-      state: "Your State",
+      street: `6/B 3rd main 7th cross 
+Vinayakanagara(paduvarhalli)
+Near basaveshwara Choultry`,
+      city: "Mysore",
+      state: "Karnataka",
       country: "India",
-      postalCode: "XXXXXX",
+      postalCode: "570012",
     },
   },
 };

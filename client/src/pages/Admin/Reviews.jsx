@@ -115,7 +115,7 @@ const Reviews = () => {
   };
 
   // Filter reviews based on search term
-  const filteredReviews = reviewsData?.reviews?.filter(
+  const filteredReviews = reviewsData?.filter(
     (review) =>
       review?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       review?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||

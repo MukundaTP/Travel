@@ -73,7 +73,7 @@ const ContactQueries = () => {
     }
   };
 
-  const filteredQueries = queriesData?.queries?.filter(
+  const filteredQueries = queriesData?.filter(
     (query) =>
       query?.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       query?.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
