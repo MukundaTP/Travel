@@ -1,4 +1,4 @@
-import { Award, TrendingUp, Rocket, Target, History } from "lucide-react";
+import { Award } from "lucide-react";
 import { motion } from "framer-motion";
 import { milestones } from "@/constants/AboutMileStrones";
 import HistoryAndVisionCard from "./HistoryAndVisionCard";

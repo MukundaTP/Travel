@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { RefreshCcw } from "lucide-react";
 import { useGetReviewsQuery } from "../../../Redux/reviewsApi";
 import { AnimatePresence, motion } from "framer-motion";
 import AnimatedTestimonials from "../ui/animated-testimonals";
-import EmptyState from "./EmptyState";
 import ErrorDisplay from "./ErrorDisplay";
 import LoadingSkeleton from "./LoadingSkeleton";
+import TestimonalsLoading from "./TestimonalsLoading";
+import TestimonalsEmptyState from "./TestimonalsEmptyState";
 
 export function AnimatedTestimonialsDemo() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -46,10 +46,8 @@ export function AnimatedTestimonialsDemo() {
   if (!transformedReviews?.length) {
     return (
       <>
-        <EmptyState onOpenDrawer={handleDrawerOpen} />
-        <AnimatedTestimonials
-          testimonials={[]}
-          autoplay={false}
+        <TestimonalsEmptyState
+          handleDrawerOpen={handleDrawerOpen}
           isDrawerOpen={isDrawerOpen}
           setDrawerOpen={setDrawerOpen}
         />
@@ -73,18 +71,7 @@ export function AnimatedTestimonialsDemo() {
         />
 
         {/* Optional loading indicator for background updates */}
-        {isFetching && (
-          <div className="fixed bottom-4 right-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white shadow-lg rounded-full px-4 py-2 text-sm text-gray-600 flex items-center gap-2"
-            >
-              <RefreshCcw className="h-4 w-4 animate-spin" />
-              Updating...
-            </motion.div>
-          </div>
-        )}
+        {isFetching && <TestimonalsLoading />}
       </motion.div>
     </AnimatePresence>
   );

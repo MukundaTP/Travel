@@ -1,10 +1,12 @@
-import { motion } from "framer-motion";
 import { useState } from "react";
-import { Plus, Users } from "lucide-react";
 import { useGetAllTeamMembersQuery } from "../../../Redux/adminAuth";
 import TeamMemberCard from "./TeamMemberCard";
 import AddTeamMemberModal from "../AdminDashboardComponents/AddTeamMemberModal";
 import { useSelector } from "react-redux";
+import LoadingTeamMembers from "./LoadingTeamMembers";
+import TeamMembersError from "./TeamMembersError";
+import EmptyTeamMembersState from "./EmptyTeamMembersState";
+import TeamHeader from "./TeamHeader";
 
 const MeetTheTeam = () => {
   const [isHovering, setIsHovering] = useState(null);
@@ -25,50 +27,19 @@ const MeetTheTeam = () => {
 
   const renderContent = () => {
     if (isLoading) {
-      return (
-        <div className="flex flex-col items-center justify-center py-16 space-y-4">
-          <div className="w-16 h-16 border-4 border-gray-700 border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-700 font-medium">Loading team members...</p>
-        </div>
-      );
+      return <LoadingTeamMembers />;
     }
 
     if (isError) {
-      return (
-        <div className="flex flex-col items-center justify-center py-16 space-y-4">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-            <Users className="w-8 h-8 text-gray-700" />
-          </div>
-          <p className="text-gray-700 font-medium">
-            {error?.data?.message || "Failed to load team members"}
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
-          >
-            Try Again
-          </button>
-        </div>
-      );
+      return <TeamMembersError error={error} />;
     }
 
     if (teamMembers.length === 0) {
       return (
-        <div className="flex flex-col items-center justify-center py-16 space-y-4">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-            <Users className="w-8 h-8 text-gray-700" />
-          </div>
-          <p className="text-gray-700 font-medium">No team members yet</p>
-          {user?.isAdmin && (
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center space-x-2"
-            >
-              <Plus className="w-5 h-5" />
-              <span>Add First Team Member</span>
-            </button>
-          )}
-        </div>
+        <EmptyTeamMembersState
+          user={user}
+          setIsAddModalOpen={setIsAddModalOpen}
+        />
       );
     }
 
@@ -131,33 +102,12 @@ const MeetTheTeam = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
-        >
-          <div className="flex-grow max-w-3xl mx-auto md:mx-0">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-              Meet Our Team
-            </h2>
-            <p className="text-gray-600 text-md sm:text-xl">
-              Meet the passionate professionals behind our success, dedicated to
-              delivering excellence in every journey.
-            </p>
-          </div>
-
-          {user?.isAdmin && !isLoading && teamMembers.length > 0 && (
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="inline-flex items-center justify-center space-x-2 bg-gray-700 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-gray-600 transition-all duration-200 group"
-            >
-              <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-200" />
-              <span>Add Member</span>
-            </button>
-          )}
-        </motion.div>
+        <TeamHeader
+          isLoading={isLoading}
+          setIsAddModalOpen={setIsAddModalOpen}
+          teamMembers={teamMembers}
+          user={user}
+        />
 
         {/* Main Content */}
         {renderContent()}
