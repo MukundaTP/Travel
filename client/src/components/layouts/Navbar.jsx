@@ -77,7 +77,10 @@ const Navbar = () => {
             <NavbarLogo />
 
             {/* Desktop Navigation */}
-            <DesktopNavigation navItems={navItems} linkVariants={navItems} />
+            <DesktopNavigation
+              navItems={navItems}
+              linkVariants={linkVariants}
+            />
 
             {/* Auth Section - Desktop */}
             <div className="hidden md:block">
@@ -111,7 +114,9 @@ const Navbar = () => {
         user={user}
         handleLogout={handleLogout}
         handleAuthClick={handleAuthClick}
+        navItems={navItems}
       />
+      {console.log(isMobileMenuOpen)}
 
       {/* Admin Authentication Popup */}
       <AdminAuthPopup

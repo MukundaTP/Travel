@@ -11,14 +11,20 @@
     />
 
     <!-- Primary Meta Tags -->
-    <title>Chaithanya Tours And Travels - Your Ultimate Travel Companion</title>
+    <title>
+      Chaithanya Tours And Travels - Premier Travel Agency in Mysuru, Karnataka
+    </title>
     <meta
       name="title"
-      content="Chaithanya Tours And Travels - Your Ultimate Travel Companion"
+      content="Chaithanya Tours And Travels - Premier Travel Agency in Mysuru, Karnataka"
     />
     <meta
       name="description"
-      content="Discover unforgettable journeys with Chaithanya Tours And Travels. Expert travel planning, personalized itineraries, and seamless travel experiences across India and beyond."
+      content="Discover unforgettable journeys with Chaithanya Tours And Travels, Mysuru's leading travel agency. Expert travel planning, personalized itineraries, and seamless travel experiences across Karnataka, India and beyond."
+    />
+    <meta
+      name="keywords"
+      content="tours, travels, travel agency, Mysuru tourism, Karnataka tours, vacation packages, Mysore tours, South India travel, India travel, Mysore travel agency"
     />
 
     <!-- Favicon -->
@@ -44,10 +50,13 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="business.business" />
-    <meta property="og:title" content="Chaithanya Tours And Travels" />
+    <meta
+      property="og:title"
+      content="Chaithanya Tours And Travels - Mysuru's Leading Travel Agency"
+    />
     <meta
       property="og:description"
-      content="Expert travel planning and personalized tour experiences"
+      content="Expert travel planning and personalized tour experiences from Mysuru, Karnataka"
     />
     <meta property="og:image" content="/og-image.jpg" />
     <meta
@@ -56,22 +65,22 @@
     />
     <meta
       property="business:contact_data:street_address"
-      content="Your Business Address"
+      content="6/B 3rd main 7th cross Vinayakanagara(paduvarhalli) Near basaveshwara Choultry"
     />
-    <meta property="business:contact_data:locality" content="Your City" />
-    <meta property="business:contact_data:region" content="Your State" />
-    <meta
-      property="business:contact_data:postal_code"
-      content="Your Postal Code"
-    />
+    <meta property="business:contact_data:locality" content="Mysuru" />
+    <meta property="business:contact_data:region" content="Karnataka" />
+    <meta property="business:contact_data:postal_code" content="570012" />
     <meta property="business:contact_data:country_name" content="India" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Chaithanya Tours And Travels" />
+    <meta
+      name="twitter:title"
+      content="Chaithanya Tours And Travels - Mysuru's Leading Travel Agency"
+    />
     <meta
       name="twitter:description"
-      content="Expert travel planning and personalized tour experiences"
+      content="Expert travel planning and personalized tour experiences from Mysuru, Karnataka"
     />
     <meta name="twitter:image" content="/og-image.jpg" />
 
@@ -79,8 +88,8 @@
     <link rel="canonical" href="https://www.chaithanyatoursandtravels.com" />
 
     <!-- Geo Tags -->
-    <meta name="geo.region" content="IN" />
-    <meta name="geo.placename" content="Your City, Your State" />
+    <meta name="geo.region" content="IN-KA" />
+    <meta name="geo.placename" content="Mysuru, Karnataka" />
 
     <!-- Robots Meta Tag -->
     <meta name="robots" content="index, follow" />
@@ -98,8 +107,7 @@
         "telephone": "+91-9916593999",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "6/B 3rd main 7th cross
-          Vinayakanagara(paduvarhalli)",
+          "streetAddress": "6/B 3rd main 7th cross Vinayakanagara(paduvarhalli) Near basaveshwara Choultry",
           "addressLocality": "Mysuru",
           "addressRegion": "Karnataka",
           "postalCode": "570012",
@@ -109,6 +117,15 @@
           "@type": "GeoCoordinates",
           "latitude": 12.3170843,
           "longitude": 76.6300724
+        },
+        "areaServed": {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 12.3170843,
+            "longitude": 76.6300724
+          },
+          "geoRadius": "500000"
         },
         "openingHoursSpecification": {
           "@type": "OpeningHoursSpecification",
@@ -122,7 +139,7 @@
             "Sunday"
           ],
           "opens": "09:00",
-          "closes": "10:00"
+          "closes": "22:00"
         },
         "sameAs": [
           "https://www.facebook.com/Chaithanyatours",
@@ -154,9 +171,8 @@
     <!-- Performance Hints -->
     <link rel="preload" href="/src/main.jsx" as="script" />
 
-    <!-- Critical CSS (if applicable) -->
+    <!-- Critical CSS -->
     <style>
-      /* Add critical, above-the-fold CSS here to improve initial render */
       body {
         font-display: swap;
         margin: 0;
@@ -180,15 +196,13 @@
       <p>You need to enable JavaScript to run this application.</p>
     </noscript>
 
-    <!-- Optional: Performance Tracking -->
+    <!-- Performance Tracking -->
     <script>
-      // Web Vitals tracking (minimal example)
       window.addEventListener("load", () => {
         if (window.performance) {
           const timing = window.performance.timing;
           const loadTime = timing.loadEventEnd - timing.navigationStart;
           console.log("Page Load Time:", loadTime);
-          // You can send this to your analytics service
         }
       });
     </script>

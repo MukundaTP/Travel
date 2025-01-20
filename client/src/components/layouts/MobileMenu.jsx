@@ -21,6 +21,7 @@ const MobileMenu = ({
   user,
   handleLogout,
   handleAuthClick,
+  navItems,
 }) => {
   return (
     <>
