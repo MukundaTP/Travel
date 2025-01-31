@@ -50,7 +50,7 @@ export const adminApi = createApi({
 
     updateReview: builder.mutation({
       query: ({ id, message }) => ({
-        url: `reviews/${id}`, // Updated to match ReviewsRoute
+        url: `admin/review/${id}`, // Updated to match ReviewsRoute
         method: "PATCH",
         credentials: "include",
         body: { message },
@@ -60,7 +60,7 @@ export const adminApi = createApi({
 
     deleteReview: builder.mutation({
       query: (id) => ({
-        url: `reviews/${id}`, // Updated to match ReviewsRoute
+        url: `admin/review/${id}`, // Updated to match ReviewsRoute
         method: "DELETE",
         credentials: "include",
       }),

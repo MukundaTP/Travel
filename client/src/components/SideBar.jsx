@@ -69,7 +69,6 @@ export const SidebarDemo = () => {
       label: "Dashboard",
       icon: LayoutDashboard,
       href: "/dashboard",
-      badge: 3,
     },
     {
       label: "Users",
@@ -80,13 +79,11 @@ export const SidebarDemo = () => {
       label: "Reviews",
       icon: Star,
       href: "/reviews",
-      badge: 5,
     },
     {
       label: "Contact Queries",
       icon: MessageSquare,
       href: "/queries",
-      badge: 2,
     },
     {
       label: "Profile",
@@ -102,7 +99,7 @@ export const SidebarDemo = () => {
         <div className="p-4 border-b border-gray-200">
           <Link to="/" className="no-underline flex items-center space-x-3">
             <div className="h-10 w-10 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl">T</span>
+              <span className="text-white font-bold text-xl">C</span>
             </div>
             {open && (
               <motion.span
@@ -110,7 +107,7 @@ export const SidebarDemo = () => {
                 animate={{ opacity: 1, x: 0 }}
                 className="text-xl font-bold text-gray-700"
               >
-                TravelEase
+                Chaithanya Tours And Travels
               </motion.span>
             )}
           </Link>

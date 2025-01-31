@@ -61,12 +61,12 @@ exports.createOrUpdateReview = CatchAsyncErrors(async (req, res, next) => {
     });
   }
 
-  // 5. Send thank you email
-  const emailSubject = isUpdate
+  // 5. Send thank you email to the user
+  const userEmailSubject = isUpdate
     ? "Thank You for Updating Your Review - Car Travel & Tours"
     : "Thank You for Your Review - Car Travel & Tours";
 
-  const emailMessage = `
+  const userEmailMessage = `
 Dear ${name},
 
 ${
@@ -92,11 +92,44 @@ Chaithanya Tours And Travels Team
 
   await sendEmail({
     email: email,
-    subject: emailSubject,
-    message: emailMessage,
+    subject: userEmailSubject,
+    message: userEmailMessage,
   });
 
-  // 6. Send success response
+  // 6. Send notification email to the business (SMTP_EMAIL)
+  const businessEmailSubject = isUpdate
+    ? "A Review Has Been Updated - Car Travel & Tours"
+    : "A New Review Has Been Submitted - Car Travel & Tours";
+
+  const businessEmailMessage = `
+Hello Team,
+
+${
+  isUpdate
+    ? "A review has been updated by one of our customers."
+    : "A new review has been submitted by one of our customers."
+}
+
+Here are the details:
+
+Name: ${name}
+Email: ${email}
+Rating: ${rating} stars
+Message: "${message}"
+
+Please take a moment to review this feedback and take any necessary actions.
+
+Best regards,
+Chaithanya Tours And Travels Team
+`;
+
+  await sendEmail({
+    email: process.env.SMTP_EMAIL, // Send email to the business email
+    subject: businessEmailSubject,
+    message: businessEmailMessage,
+  });
+
+  // 7. Send success response
   res.status(isUpdate ? 200 : 201).json({
     success: true,
     message: isUpdate

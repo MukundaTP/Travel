@@ -2,8 +2,14 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Home, ArrowLeft, ChevronRight, Users, Car, Phone } from "lucide-react";
 import MetaData from "@/components/layouts/MetaData";
+import { useEffect } from "react";
 
 const NotFound = () => {
+  // Scroll to top when the component is mounted (when the page loads)
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
+
   const containerVariants = {
     initial: { opacity: 0 },
     animate: {

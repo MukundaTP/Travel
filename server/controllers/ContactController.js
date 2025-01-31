@@ -83,11 +83,16 @@ Best regards,
 Car Travel & Tours Team
 `;
 
-  await sendEmail({
-    email: email,
-    subject: "Travel Booking Confirmation - Car Travel & Tours",
-    message: userEmailMessage,
-  });
+  try {
+    await sendEmail({
+      email: email,
+      subject: "Travel Booking Confirmation - Car Travel & Tours",
+      message: userEmailMessage,
+    });
+    console.log(`Confirmation email sent to user: ${email}`);
+  } catch (error) {
+    console.error(`Error sending confirmation email to user: ${error}`);
+  }
 
   // 4. Send notification to admin
   const adminEmailMessage = `
@@ -131,14 +136,19 @@ Access admin dashboard to process this booking:
 ${process.env.ADMIN_DASHBOARD_URL}/bookings/${contact._id}
 
 -- Automated Booking Notification
-Car Travel & Tours Booking System
+Chaithanya Tours And Travels Booking System
 `;
 
-  await sendEmail({
-    email: process.env.ADMIN_EMAIL,
-    subject: `New Travel Booking: ${startLocation} to ${endLocation}`,
-    message: adminEmailMessage,
-  });
+  try {
+    await sendEmail({
+      email: process.env.SMTP_EMAIL,
+      subject: `New Travel Booking: ${startLocation} to ${endLocation}`,
+      message: adminEmailMessage,
+    });
+    console.log(`Notification email sent to admin: ${process.env.SMTP_EMAIL}`);
+  } catch (error) {
+    console.error(`Error sending notification email to admin: ${error}`);
+  }
 
   // 5. Send success response
   res.status(201).json({
@@ -297,5 +307,30 @@ exports.getAllContacts = CatchAsyncErrors(async (req, res, next) => {
     success: true,
     count: contacts.length,
     contacts,
+  });
+});
+
+// Delete Contact by ID
+exports.deleteContact = CatchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+
+  // Find the contact by ID
+  const contact = await Contact.findById(id);
+
+  // If contact not found, return error
+  if (!contact) {
+    return res.status(404).json({
+      success: false,
+      message: "Contact not found",
+    });
+  }
+
+  // Delete the contact
+  await Contact.deleteOne({ _id: id });
+
+  // Send success response
+  res.status(200).json({
+    success: true,
+    message: "Contact deleted successfully",
   });
 });

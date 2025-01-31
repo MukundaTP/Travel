@@ -1,6 +1,6 @@
 // src/components/Footer/components/CompanyInfo.jsx
 
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 import SocialLink from "./SocialLink";
 
 const CompanyInfo = () => (
@@ -12,9 +12,11 @@ const CompanyInfo = () => (
     </p>
     <div className="flex space-x-4">
       <SocialLink Icon={Facebook} href="#" />
-      <SocialLink Icon={Twitter} href="#" />
-      <SocialLink Icon={Instagram} href="#" />
-      <SocialLink Icon={Linkedin} href="#" />
+      <SocialLink
+        Icon={Instagram}
+        href="https://www.instagram.com/chaithanyatoursandtravels"
+      />
+      <SocialLink Icon={Youtube} href="#" />
     </div>
   </div>
 );

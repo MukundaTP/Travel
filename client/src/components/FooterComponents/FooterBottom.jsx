@@ -11,13 +11,13 @@ const FooterBottom = () => (
         </p>
         <div className="flex items-center gap-6 mt-4 md:mt-0">
           <Link
-            to="/privacy"
+            to="/"
             className="text-sm text-gray-400 hover:text-white transition-colors"
           >
             Privacy Policy
           </Link>
           <Link
-            to="/terms"
+            to="/"
             className="text-sm text-gray-400 hover:text-white transition-colors"
           >
             Terms of Service
